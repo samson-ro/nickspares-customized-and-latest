@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="dashboard-card">
+        <h2 class="card-title">Welcome, {{ user.username }}</h2>
+        <p class="subtitle">Select a module to continue:</p>
+
+        <div class="module-grid">
+            <a href="{% url 'employee_list' %}" class="dashboard-btn yellow">Employees</a>
+            <a href="{% url 'customer_list' %}" class="dashboard-btn blue">Customers</a>           
+            <a href="{% url 'sparepart_list' %}" class="dashboard-btn green">Inventory</a>          
+            <a href="{% url 'repair_list' %}" class="dashboard-btn gray">Repairs</a>
+            <a href="{% url 'invoice_list' %}" class="dashboard-btn teal">Billing</a>
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

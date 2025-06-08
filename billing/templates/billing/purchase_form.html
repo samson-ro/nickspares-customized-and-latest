@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="page-card form-card">
+        <h2>{{ title }}</h2>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ invoice_form.as_p }}
+            </div>
+
+            <h4>Parts Purchased</h4>
+            {{ formset.management_form }}
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Part</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for form in formset %}
+                            <tr>
+                                {{ form.id }}
+                                <td>{{ form.part }}</td>
+                                <td>{{ form.quantity }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            <div class="form-actions">
+                <button type="submit" class="action-button green">Complete Purchase</button>
+                <a href="{% url 'invoice_list' %}" class="action-button red">Cancel</a>
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

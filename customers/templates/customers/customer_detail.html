@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="page-card">
+        <div class="page-header">
+            <h2>Customer Details</h2>           
+        </div>
+        <div class="detail-info">
+            <p><strong>Name:</strong> {{ customer.name }}</p>
+            <p><strong>Phone Number:</strong> {{ customer.phone_number }}</p>
+            <p><strong>Email:</strong> {{ customer.email }}</p>
+            <p><strong>Address:</strong> {{ customer.address }}</p>
+            <p><strong>Date Created:</strong> {{ customer.date_created }}</p>
+        </div>
+        <a href="{% url 'customer_list' %}" class="button">Back</a>
+    </div>
+</div>
+{% endblock %}

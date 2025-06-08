@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav>
+    <a href="{% url 'dashboard' %}" class="button">Back</a>
+</nav>
+
+<div class="container">
+    <div class="page-card">
+        <div class="page-header">
+            <h2>Repair Records</h2>
+            <a href="{% url 'add_repair' %}" class="action-button green">Add New Repair +</a>
+        </div>
+
+        {% if repairs %}
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Customer</th>
+                    <th>Motorcycle</th>
+                    <th>Status</th>
+                    <th>Cost of Service</th>
+                    <th>Date In</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for repair in repairs %}
+                <tr>
+                    <td>{{ repair.id }}</td>
+                    <td>{{ repair.customer.name }}</td>
+                    <td>{{ repair.motorcycle_model }}</td>
+                    <td>{{ repair.status }}</td>
+                    <td>{{ repair.cost_of_service }}</td>
+                    <td>{{ repair.date_in|date:"Y-m-d H:i" }}</td>
+                    <td>
+                        <a href="{% url 'repair_detail' repair.id %}" class="small-btn blue">View</a>
+                        <a href="{% url 'edit_repair' repair.id %}" class="small-btn yellow">Edit</a>
+                        <a href="{% url 'delete_repair' repair.id %}" class="small-btn red">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No repairs found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="page-card form-card">
+        <h2>{{ title }}</h2>
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                {{ form.as_p }}
+            </div>
+
+            <h4>Parts Used</h4>
+            <div class="form-group">
+                {{ formset.management_form }}
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Part</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for form in formset %}
+                        <tr>
+                            {{ form.id }}
+                            <td>{{ form.part }}</td>
+                            <td>{{ form.quantity }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="action-button green">Save Repair</button>
+                <a href="{% url 'repair_list' %}" class="action-button red">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav>
+    <a href="{% url 'dashboard' %}" class="button">Back</a>
+</nav>
+<div class="container">
+    <div class="page-card">
+        <div class="page-header">
+            <h2>Spare Parts</h2>
+            <a href="{% url 'add_sparepart' %}" class="action-button green">Add Spare Part +</a>
+        </div>
+
+        {% if parts %}
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Part Number</th>
+                    <th>Category</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Supplier</th>
+                    <th>Date Added</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for part in parts %}
+                <tr>
+                    <td>{{ part.name }}</td>
+                    <td>{{ part.part_number }}</td>
+                    <td>{{ part.category }}</td>
+                    <td>{{ part.quantity }}</td>
+                    <td>{{ part.price }}</td>
+                    <td>{{ part.supplier }}</td>
+                    <td>{{ part.date_added }}</td>
+                    <td>
+                        <a href="{% url 'sparepart_detail' part.id %}" class="small-btn blue">View</a>
+                        <a href="{% url 'edit_sparepart' part.pk %}" class="small-btn yellow">Edit</a>
+                        <a href="{% url 'delete_sparepart' part.pk %}" class="small-btn red">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No spare parts found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

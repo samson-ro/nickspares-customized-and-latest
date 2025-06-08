@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="page-card form-card">
+        <h2>{{ title }}</h2>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.as_p }}
+                {% if invoice.repair is None and formset %}
+                    <h4>Purchased Parts</h4>
+                    {{ formset.management_form }}
+
+                        <table>
+                            {% for form in formset %}
+                                <tr>
+                                    {{ form.id }}
+                                    <td>{{ form.part.label_tag }} {{ form.part }}</td>
+                                    <td>{{ form.quantity.label_tag }} {{ form.quantity }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                        
+                 {% endif %}
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="action-button green">Save Invoice</button>
+                <a href="{% url 'invoice_list' %}" class="action-button red">Cancel</a>
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

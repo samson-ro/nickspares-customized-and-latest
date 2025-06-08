@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<nav>
+    <a href="{% url 'dashboard' %}" class="button">Back</a>
+</nav>
+
+<div class="container">
+    <div class="page-card">
+        <div class="page-header">
+            <h2>Invoices</h2>
+            <div>
+                <a href="{% url 'add_invoice' %}" class="action-button green">Add Invoice +</a>
+                <a href="{% url 'purchase_parts' %}" class="action-button blue">Purchase Spare Parts</a>
+            </div>
+        </div>
+
+        {% if invoices %}
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer</th>
+                        <th>Repair</th>
+                        <th>Amount (KES)</th>
+                        <th>Paid</th>
+                        <th>Method</th>
+                        <th>Date Issued</th>
+                        <th>Details</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in invoices %}
+                    <tr>
+                        <td>{{ entry.invoice.id }}</td>
+                        <td>{{ entry.invoice.customer.name }}</td>
+                        <td>{{ entry.invoice.repair }}</td>
+                        <td>{{ entry.invoice.amount }}</td>
+                        <td>{{ entry.invoice.paid|yesno:"Yes,No" }}</td>
+                        <td>{{ entry.invoice.payment_method }}</td>
+                        <td>{{ entry.invoice.date_issued }}</td>
+                        <td>
+                            {% if entry.type == 'Repair' %}
+                                {{ entry.details }}
+                            {% else %}
+                                <ol>
+                                    {% for purchase in entry.details %}
+                                    <li>{{ purchase.part.name }} (x{{ purchase.quantity }})</li>
+                                    {% endfor %}
+                                </ol>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'invoice_detail' entry.invoice.id %}" class="small-btn blue">View</a>
+                            <a href="{% url 'edit_invoice' entry.invoice.pk %}" class="small-btn yellow">Edit</a>
+                            <a href="{% url 'delete_invoice' entry.invoice.pk %}" class="small-btn red">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        {% else %}
+            <p>No invoices found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

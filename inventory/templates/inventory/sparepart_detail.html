@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="page-card">
+        <div class="page-header">
+            <h2>Spare Part Details</h2>           
+        </div>
+        <div class="detail-info">
+            <p><strong>Name:</strong> {{ sparepart.name }}</p>
+            <p><strong>Part Number:</strong> {{ sparepart.part_number }}</p>
+            <p><strong>Category:</strong> {{ sparepart.category }}</p>
+            <p><strong>Quantity:</strong> {{ sparepart.quantity }}</p>
+            <p><strong>Price:</strong> {{ sparepart.price }}</p>
+            <p><strong>Supplier:</strong> {{ sparepart.supplier }}</p>
+            <p><strong>Date Added:</strong> {{ sparepart.date_added }}</p>
+        </div>
+        <a href="{% url 'sparepart_list' %}" class="button">Back</a>
+    </div>
+</div>
+{% endblock %}

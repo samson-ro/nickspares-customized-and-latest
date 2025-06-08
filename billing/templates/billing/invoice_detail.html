@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="page-card">
+        <div class="page-header">
+            <h2>Invoice Details</h2>
+        </div>
+
+        <div class="detail-info">
+            <p><strong>ID:</strong> {{ invoice.id }}</p>
+            <p><strong>Customer Name:</strong> {{ invoice.customer.name }}</p>
+            <p><strong>Repair:</strong> {{ invoice.repair|default:"N/A" }}</p>
+            <p><strong>Amount:</strong> KES {{ invoice.amount }}</p>
+            <p><strong>Paid:</strong> {{ invoice.paid|yesno:"Yes,No" }}</p>
+            <p><strong>Payment Method:</strong> {{ invoice.payment_method }}</p>
+            <p><strong>Date Issued:</strong> {{ invoice.date_issued }}</p>
+            {% if invoice.repair %}
+            <h4>Parts Used in Repair:</h4>
+            <ul>
+                {% for part in invoice.repair.repairpart_set.all %}
+                    <li>{{ part.quantity }} x {{ part.part.name }} @ KES {{ part.part.price }}</li>
+                    {% empty %}
+                        <li>No parts used for this repair.</li>
+                {% endfor %}
+            </ul>
+                {% else %}
+            <h4>Purchased Spare Parts:</h4>
+            <ul>
+                {% for item in invoice.purchased_parts.all %}
+                    <li>{{ item.quantity }} x {{ item.part.name }} @ KES {{ item.part.price }}</li>
+                    {% empty %}
+                        <li>No parts purchased on this invoice.</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        <a href="{% url 'invoice_list' %}" class="button">Back</a>
+    </div>
+</div>
+{% endblock %}
