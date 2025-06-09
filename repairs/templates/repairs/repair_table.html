@@ -1,5 +1,4 @@
 {% if repairs %}
-
 <table class="styled-table">
     <thead>
         <tr>
@@ -23,7 +22,6 @@
                     {{ repair.status }}
                 </span>
             </td>
-            <td>{{ repair.status }}</td>
             <td>{{ repair.cost_of_service }}</td>
             <td>{{ repair.date_in|date:"Y-m-d H:i" }}</td>
             <td>
@@ -35,7 +33,6 @@
         {% endfor %}
     </tbody>
 </table>
-
 {% else %}
 <p>No repairs in this category.</p>
 {% endif %}
