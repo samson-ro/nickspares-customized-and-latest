@@ -2,14 +2,22 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import RepairRecord, RepairPart
 from .forms import RepairPartFormSet, RepairRecordForm, RepairPartForm
 from django.forms import inlineformset_factory
-
+from .models import RepairRecord
 from django.contrib.auth.decorators import login_required
 
 # List all repair records
 @login_required
 def repair_list(request):
-    repairs = RepairRecord.objects.all().order_by('-date_in')
-    return render(request, 'repairs/repair_list.html', {'repairs': repairs})
+    pending_repairs = RepairRecord.objects.filter(status='Pending')
+    completed_repairs = RepairRecord.objects.filter(status='Completed')
+    cancelled_repairs = RepairRecord.objects.filter(status='Cancelled')
+    
+    context = {
+        'pending_repairs': pending_repairs,
+        'completed_repairs': completed_repairs,
+        'cancelled_repairs': cancelled_repairs,
+    }
+    return render(request, 'repairs/repair_list.html', context)
 
 # Show a single repair record and its parts
 @login_required

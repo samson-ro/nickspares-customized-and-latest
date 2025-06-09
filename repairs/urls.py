@@ -7,5 +7,4 @@ urlpatterns = [
     path('<int:pk>/', views.repair_detail, name='repair_detail'),
     path('<int:pk>/edit/', views.edit_repair, name='edit_repair'),
     path('<int:pk>/delete/', views.delete_repair, name='delete_repair'),
-
 ]
