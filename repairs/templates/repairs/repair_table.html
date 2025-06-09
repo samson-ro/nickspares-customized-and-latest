@@ -1,4 +1,5 @@
 {% if repairs %}
+
 <table class="styled-table">
     <thead>
         <tr>
@@ -17,15 +18,12 @@
             <td>{{ repair.id }}</td>
             <td>{{ repair.customer.name }}</td>
             <td>{{ repair.motorcycle_model }}</td>
-<<<<<<< HEAD
             <td>
                 <span class="status-badge {{ repair.status|lower }}">
                     {{ repair.status }}
                 </span>
             </td>
-=======
             <td>{{ repair.status }}</td>
->>>>>>> 95e1a9a57b819cb4779b54f542499f6d70798e9d
             <td>{{ repair.cost_of_service }}</td>
             <td>{{ repair.date_in|date:"Y-m-d H:i" }}</td>
             <td>
@@ -37,6 +35,7 @@
         {% endfor %}
     </tbody>
 </table>
+
 {% else %}
 <p>No repairs in this category.</p>
 {% endif %}
