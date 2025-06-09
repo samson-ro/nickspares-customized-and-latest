@@ -1,9 +1,5 @@
-{% extends "base.html" %}
-
+{% extends "base_dashboard.html" %}
 {% block content %}
-<nav>
-    <a href="{% url 'dashboard' %}" class="button">Back</a>
-</nav>
 
 <div class="container">
     <div class="page-card">
@@ -12,40 +8,15 @@
             <a href="{% url 'add_repair' %}" class="action-button green">Add New Repair +</a>
         </div>
 
-        {% if repairs %}
-        <table class="styled-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Customer</th>
-                    <th>Motorcycle</th>
-                    <th>Status</th>
-                    <th>Cost of Service</th>
-                    <th>Date In</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for repair in repairs %}
-                <tr>
-                    <td>{{ repair.id }}</td>
-                    <td>{{ repair.customer.name }}</td>
-                    <td>{{ repair.motorcycle_model }}</td>
-                    <td>{{ repair.status }}</td>
-                    <td>{{ repair.cost_of_service }}</td>
-                    <td>{{ repair.date_in|date:"Y-m-d H:i" }}</td>
-                    <td>
-                        <a href="{% url 'repair_detail' repair.id %}" class="small-btn blue">View</a>
-                        <a href="{% url 'edit_repair' repair.id %}" class="small-btn yellow">Edit</a>
-                        <a href="{% url 'delete_repair' repair.id %}" class="small-btn red">Delete</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% else %}
-        <p>No repairs found.</p>
-        {% endif %}
+        <h3>Pending Repairs</h3>
+        {% include "repairs/repair_table.html" with repairs=pending_repairs %}
+
+        <h3>Completed Repairs</h3>
+        {% include "repairs/repair_table.html" with repairs=completed_repairs %}
+
+        <h3>Cancelled Repairs</h3>
+        {% include "repairs/repair_table.html" with repairs=cancelled_repairs %}
     </div>
 </div>
+
 {% endblock %}
