@@ -8,6 +8,16 @@
             <a href="{% url 'add_repair' %}" class="action-button green">Add New Repair +</a>
         </div>
 
+        {% if messages %}
+            <div style="color: chartreuse;" class="messages">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <h3>Pending Repairs</h3>
         {% include "repairs/repair_table.html" with repairs=pending_repairs %}
 

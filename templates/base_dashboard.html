@@ -22,6 +22,7 @@
         }
         .sidebar {
             width: 250px;
+            flex-shrink: 0;
             background-color: #2c3e50;
             color: #fff;
             padding: 20px;
@@ -59,52 +60,38 @@
             flex-grow: 1;
             padding: 20px;
             overflow-y: auto;
+            flex: 1;
+            margin-left: 250px;
+            width: calc(100% - 250px);
         }
-        .hamburger {
-            display: none; /* Hidden by default */
+        .sidebar {
             position: fixed;
-            top: 15px;
-            left: 15px;
-            background: #2c3e50;
-            color: white;
-            border: none;
-            font-size: 1.5em;
-            z-index: 1001; /* Above sidebar */
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
+            transform: translateX(-100%);
+            z-index: 1000;
+            width: 250px;
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 20px;
+            position: fixed; 
+            height: 100vh; 
+            overflow-y: auto;
         }
-
-        /* Mobile Styles */
-        @media (max-width: 768px) {
-            .hamburger {
-                display: block !important; /* force it to show */
-            }
-            .sidebar {
-                position: fixed;
-                transform: translateX(-100%);
-                z-index: 1000;
-            }
-            .sidebar:not(.hidden) {
-                transform: translateX(0);
-            }
+        .sidebar:not(.hidden) {
+            transform: translateX(0);
         }
-            .sidebar a i {
-                margin-right: 10px;
-            }
-            .sidebar a.active {
-                background-color: #00cec9;
-                color: #2d3436;
-            }
+        .sidebar a i {
+            margin-right: 10px;
+        }
+        .sidebar a.active {
+            background-color: #00cec9;
+            color: #2d3436;
+        }
     </style>
 
 </head>
 <body>
 
-    
-    
     <div class="wrapper">
-        <button class="hamburger" onclick="toggleSidebar()">☰ Menu</button>
         <div class="sidebar" id="sidebar">
             <h2>Nick's Auto Spares</h2>
             <a href="{% url 'dashboard' %}" class="{% if request.path == '/' %}active{% endif %}">
@@ -141,3 +128,4 @@
 
 </body>
 </html>
+
