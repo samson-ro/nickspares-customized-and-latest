@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from repairs.models import RepairPart
-from .models import Invoice, SparePartPurchase
-from .forms import InvoiceForm, SparePartPurchaseFormSet, SparePartPurchaseForm
+from .models import Invoice, PurchasedPart
+from .forms import InvoiceForm, PurchasedPartFormSet, PurchasedPartForm
 from inventory.models import SparePart
 from django.db import transaction
 from django.contrib import messages
@@ -24,7 +24,7 @@ def invoice_list(request):
                 'details': invoice.repair.work_done  # or any other detail i'll want
             })
         else:
-            purchases = SparePartPurchase.objects.filter(invoice=invoice).select_related('part')
+            purchases = PurchasedPart.objects.filter(invoice=invoice).select_related('part')
             enriched_invoices.append({
                 'invoice': invoice,
                 'type': 'Purchase',
@@ -80,8 +80,8 @@ def edit_invoice(request, pk):
 
     PurchaseFormSet = inlineformset_factory(
         Invoice,
-        SparePartPurchase,
-        form=SparePartPurchaseForm,
+        PurchasedPart,
+        form=PurchasedPartForm,
         extra=1, #can be more
         can_delete=True
     )
@@ -120,7 +120,7 @@ def delete_invoice(request, pk):
 def purchase_spare_parts(request):
     if request.method == 'POST':
         invoice_form = InvoiceForm(request.POST)
-        formset = SparePartPurchaseFormSet(request.POST, queryset=SparePartPurchase.objects.none())
+        formset = PurchasedPartFormSet(request.POST, queryset=PurchasedPart.objects.none())
 
         if invoice_form.is_valid() and formset.is_valid():
             try:
@@ -165,7 +165,7 @@ def purchase_spare_parts(request):
                 messages.error(request, f"Purchase cannot be completed: {str(e)}")
     else:
         invoice_form = InvoiceForm()
-        formset = SparePartPurchaseFormSet(queryset=SparePartPurchase.objects.none())
+        formset = PurchasedPartFormSet(queryset=PurchasedPart.objects.none())
 
     return render(request, 'billing/purchase_form.html', {
         'invoice_form': invoice_form,

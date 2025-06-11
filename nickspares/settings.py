@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'employees',
     'billing',
     'core',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

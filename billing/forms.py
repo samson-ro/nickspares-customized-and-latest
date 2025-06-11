@@ -1,5 +1,5 @@
 from django import forms
-from .models import Invoice, SparePartPurchase
+from .models import Invoice, PurchasedPart
 from inventory.models import SparePart
 from django.forms import modelformset_factory
 
@@ -17,16 +17,16 @@ class InvoiceForm(forms.ModelForm):
             'payment_method': forms.Select(attrs={'class': 'form-control'}),
         }
 
-class SparePartPurchaseForm(forms.ModelForm):
+class PurchasedPartForm(forms.ModelForm):
     class Meta:
-        model = SparePartPurchase
+        model = PurchasedPart
         fields = ['part', 
                   'quantity']
 
 
-SparePartPurchaseFormSet = modelformset_factory(
-    SparePartPurchase,
-    form=SparePartPurchaseForm,
+PurchasedPartFormSet = modelformset_factory(
+    PurchasedPart,
+    form=PurchasedPartForm,
     extra=2,  #inventory selection, can be increased or reduced 
     can_delete=True
 )

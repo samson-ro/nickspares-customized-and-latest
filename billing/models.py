@@ -1,5 +1,4 @@
 from django.db import models
-from django.db import models
 from customers.models import Customer
 from repairs.models import RepairRecord
 from inventory.models import SparePart
@@ -20,11 +19,21 @@ class Invoice(models.Model):
 
     def __str__(self):
         return f"Invoice #{self.id} - {self.customer.name}"
-    
-class SparePartPurchase(models.Model):
+
+class PurchasedPart(models.Model):
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='purchased_parts')
     part = models.ForeignKey(SparePart, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
 
     def __str__(self):
-        return f"{self.quantity} x {self.part.name}"
+        return f"{self.quantity} x {self.part.name} (Invoice #{self.invoice.id})"
+
+
+class InvoiceItem(models.Model):
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='items')
+    description = models.CharField(max_length=100)  # e.g., 'Oil Filter', 'Labor'
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.description} - {self.amount} (Invoice #{self.invoice.id})"
+
