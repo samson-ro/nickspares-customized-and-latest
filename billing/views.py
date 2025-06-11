@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from repairs.models import RepairPart
+from repairs.models import RepairPart, RepairRecord
 from .models import Invoice, PurchasedPart
 from .forms import InvoiceForm, PurchasedPartFormSet, PurchasedPartForm
 from inventory.models import SparePart
@@ -44,6 +44,10 @@ def invoice_detail(request, pk):
                   {'invoice': invoice })
 
 
+from .models import InvoiceItem  # Add this import
+
+...
+
 @login_required
 def add_invoice(request):
     if request.method == 'POST':
@@ -51,25 +55,32 @@ def add_invoice(request):
         if form.is_valid():
             invoice = form.save(commit=False)
 
-            # Calculating parts total
+            # Calculate total parts cost
             parts = RepairPart.objects.filter(repair=invoice.repair)
             parts_total = sum(part.quantity * part.part.price for part in parts)
 
-            # Add cost of service
-            invoice.amount = parts_total + invoice.repair.cost_of_service
+            # Total amount = parts + service
+            total_amount = parts_total + invoice.repair.cost_of_service
+
+            # Assign total to invoice
+            invoice.amount = total_amount
             invoice.save()
+
+            # Single combined InvoiceItem
+            InvoiceItem.objects.create(
+                invoice=invoice,
+                description=invoice.repair.work_done or "Repair Service",  # fallback if work_done is empty
+                amount=total_amount
+            )
 
             return redirect('invoice_list')
     else:
         form = InvoiceForm()
-        total_amount = None
 
     return render(request, 'billing/invoice_form.html', {
         'form': form,
         'title': 'Add Invoice',
-        'total_amount': total_amount
     })
-
 
 
 @login_required
