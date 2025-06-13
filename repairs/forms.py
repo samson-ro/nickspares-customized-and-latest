@@ -2,7 +2,7 @@ from django import forms
 from django.forms import inlineformset_factory
 
 from inventory.models import SparePart
-from .models import RepairRecord, RepairPart
+from .models import RepairRecord, RepairPart, MotorcycleModel, Motorcycle
 
 class RepairRecordForm(forms.ModelForm):
     class Meta:
@@ -36,3 +36,13 @@ RepairPartFormSet = inlineformset_factory(
     extra=3,  
     can_delete=False
 )
+
+class MotorcycleModelForm(forms.ModelForm):
+    class Meta:
+        model = MotorcycleModel
+        fields = ['name', 'manufacturer']
+
+class MotorcycleForm(forms.ModelForm):
+    class Meta:
+        model = Motorcycle
+        fields = ['model', 'license_plate', 'year', 'customer']

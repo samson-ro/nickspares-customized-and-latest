@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import RepairRecord, RepairPart
-from .forms import RepairPartFormSet, RepairRecordForm, RepairPartForm
+from .models import RepairRecord, RepairPart, MotorcycleModel, Motorcycle
+from .forms import RepairPartFormSet, RepairRecordForm, RepairPartForm, MotorcycleModelForm, MotorcycleForm
 from django.forms import inlineformset_factory
-from .models import RepairRecord
+from .models import RepairRecord, MotorcycleModel, Motorcycle
 from django.contrib.auth.decorators import login_required
 
 # List all repair records
@@ -137,9 +137,6 @@ def edit_repair(request, pk):
         'title': 'Edit Repair'
     })
 
-
-
-
 from django.contrib import messages
 
 @login_required
@@ -155,3 +152,75 @@ def delete_repair(request, pk):
         'object': repair,
         'title': 'Delete Repair'
     })
+
+@login_required
+def motorcycle_model_list(request):
+    models = MotorcycleModel.objects.all().order_by('name')
+    return render(request, 'repairs/motorcycle_model_list.html', {'models': models})
+
+@login_required
+def add_motorcycle_model(request):
+    if request.method == 'POST':
+        form = MotorcycleModelForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('motorcycle_model_list')
+    else:
+        form = MotorcycleModelForm()
+    return render(request, 'repairs/motorcycle_model_form.html', {'form': form, 'title': 'Add Motorcycle Model'})
+
+@login_required
+def edit_motorcycle_model(request, pk):
+    model = get_object_or_404(MotorcycleModel, pk=pk)
+    if request.method == 'POST':
+        form = MotorcycleModelForm(request.POST, instance=model)
+        if form.is_valid():
+            form.save()
+            return redirect('motorcycle_model_list')
+    else:
+        form = MotorcycleModelForm(instance=model)
+    return render(request, 'repairs/motorcycle_model_form.html', {'form': form, 'title': 'Edit Motorcycle Model'})
+
+@login_required
+def delete_motorcycle_model(request, pk):
+    model = get_object_or_404(MotorcycleModel, pk=pk)
+    if request.method == 'POST':
+        model.delete()
+        return redirect('motorcycle_model_list')
+    return render(request, 'repairs/confirm_delete.html', {'object': model, 'title': 'Delete Motorcycle Model'})
+
+@login_required
+def motorcycle_list(request):
+    motorcycles = Motorcycle.objects.select_related('customer', 'model').order_by('-id')
+    return render(request, 'repairs/motorcycle_list.html', {'motorcycles': motorcycles})
+
+@login_required
+def add_motorcycle(request):
+    if request.method == 'POST':
+        form = MotorcycleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('motorcycle_list')
+    else:
+        form = MotorcycleForm()
+    return render(request, 'repairs/motorcycle_form.html', {'form': form, 'title': 'Add Motorcycle'})
+
+@login_required
+def edit_motorcycle(request, pk):
+    motorcycle = get_object_or_404(Motorcycle, pk=pk)
+    if request.method == 'POST':
+        form = MotorcycleForm(request.POST, instance=motorcycle)
+        if form.is_valid():
+            form.save()
+            return redirect('motorcycle_list')
+    else:
+        form = MotorcycleForm(instance=motorcycle)
+    return render(request, 'repairs/motorcycle_form.html', {'form': form, 'title': 'Edit Motorcycle'})
+
+@login_required
+def delete_motorcycle(request, pk):
+    motorcycle = get_object_or_404(Motorcycle, pk=pk)
+    if request.method == 'POST':
+        motorcycle.delete()
+        return redirect('motorcycle_list')
+    return render(request, 'repairs/confirm_delete.html', {'object': motorcycle, 'title': 'Delete Motorcycle'})

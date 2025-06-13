@@ -1,0 +1,12 @@
+{% extends "base_dashboard.html" %}
+{% block content %}
+<div class="page-card form-card">
+    <h2>{{ title }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="action-button green">Save</button>
+        <a href="{% url 'supplier_list' %}" class="action-button red">Cancel</a>
+    </form>
+</div>
+{% endblock %}

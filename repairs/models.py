@@ -10,7 +10,10 @@ class Motorcycle(models.Model):
     year = models.PositiveIntegerField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.model_name} ({self.license_plate or 'No Plate'})"
+        model_name = self.model.name if self.model else "Unknown Model"
+        plate = self.license_plate or "No Plate"
+        return f"{model_name} - {plate}"
+
 
 class MotorcycleModel(models.Model):
     name = models.CharField(max_length=100, unique=True)

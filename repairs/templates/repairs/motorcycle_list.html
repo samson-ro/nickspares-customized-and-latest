@@ -1,0 +1,39 @@
+{% extends "base_dashboard.html" %}
+{% block content %}
+<div class="page-card">
+    <div class="page-header">
+        <h2>Motorcycles</h2>
+        <a href="{% url 'add_motorcycle' %}" class="action-button green">Add Motorcycle +</a>
+    </div>
+
+    {% if motorcycles %}
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Model</th>
+                <th>License Plate</th>
+                <th>Year</th>
+                <th>Customer</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for moto in motorcycles %}
+            <tr>
+                <td>{{ moto.model.name }}</td>
+                <td>{{ moto.license_plate }}</td>
+                <td>{{ moto.year }}</td>
+                <td>{{ moto.customer.name }}</td>
+                <td>
+                    <a href="{% url 'edit_motorcycle' moto.pk %}" class="small-btn yellow">Edit</a>
+                    <a href="{% url 'delete_motorcycle' moto.pk %}" class="small-btn red">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No motorcycles found.</p>
+    {% endif %}
+</div>
+{% endblock %}

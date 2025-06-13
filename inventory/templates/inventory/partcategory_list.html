@@ -1,0 +1,27 @@
+{% extends "base_dashboard.html" %}
+{% block content %}
+<div class="page-card">
+    <div class="page-header">
+        <h2>Part Categories</h2>
+        <a href="{% url 'add_partcategory' %}" class="action-button green">Add Category +</a>
+    </div>
+    {% if categories %}
+    <table class="styled-table">
+        <thead><tr><th>Name</th><th>Actions</th></tr></thead>
+        <tbody>
+            {% for c in categories %}
+            <tr>
+                <td>{{ c.name }}</td>
+                <td>
+                    <a href="{% url 'edit_partcategory' c.pk %}" class="small-btn yellow">Edit</a>
+                    <a href="{% url 'delete_partcategory' c.pk %}" class="small-btn red">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No categories found.</p>
+    {% endif %}
+</div>
+{% endblock %}
