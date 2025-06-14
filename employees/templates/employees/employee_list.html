@@ -2,7 +2,6 @@
 
 
 {% block content %}
-<div class="container">
     <div class="page-card">
         <div class="page-header">
             <h2>Employees</h2>
@@ -14,7 +13,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Role</th>
-                    <th>Hire Date</th>
+                    <th>Phone Number</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -23,7 +22,7 @@
                 <tr>
                     <td>{{ emp.name }}</td>
                     <td>{{ emp.role }}</td>
-                    <td>{{ emp.hire_date|date:"Y-m-d H:i" }}</td>
+                    <td>{{ emp.phone_number}}</td>
                     <td>
                         <a href="{% url 'employee_detail' emp.id %}" class="small-btn blue">View</a>
                         <a href="{% url 'edit_employee' emp.pk %}" class="small-btn yellow">Edit</a>
@@ -37,5 +36,4 @@
         <p>No employees found.</p>
         {% endif %}
     </div>
-</div>
 {% endblock %}

@@ -1,20 +1,16 @@
 {% extends "base_dashboard.html" %}
-
-
 {% block content %}
-<div class="container">
-    <div class="page-card">
-        <div class="page-header">
-            <h2>Add Customer</h2>
-        </div>
-        <form method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                {{ form.as_p }}
-            </div>
-            <button type="submit" class="action-button green">Save</button>
-            <a href="{% url 'customer_list' %}" class="action-button red">Cancel</a>
-        </form>
+<div class="page-card">
+    <div class="page-header">
+        <h2>Add Customer</h2>
     </div>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="action-button green">Save</button>
+        <a href="{% url 'customer_list' %}" class="action-button red">Cancel</a>
+    </form>
 </div>
 {% endblock %}

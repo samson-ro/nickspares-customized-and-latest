@@ -2,32 +2,30 @@
 
 
 {% block content %}
-<div class="container">
-    <div class="page-card">
-        <div class="page-header">
-            <h2>Repair Details</h2>
-        </div>
-
-        <div class="detail-info">
-            <p><strong>Customer:</strong> {{ repair.customer.name }}</p>
-            <p><strong>Motorcycle:</strong> {{ repair.motorcycle_model }}</p>
-            <p><strong>Status:</strong> {{ repair.status }}</p>
-            <p><strong>Complaint:</strong> {{ repair.complaint }}</p>
-            <p><strong>Date In:</strong> {{ repair.date_in }}</p>
-            <p><strong>Date Out:</strong> {{ repair.date_out }}</p>
-            <p><strong>Work Done:</strong> {{ repair.work_done }}</p>
-            <p><strong>Cost of Service:</strong> KES {{ repair.cost_of_service }}</p>
-            <p><strong>Part(s) Used:</strong></p>
-            <ul>
-                {% for part in parts %}
-                    <li>{{ part.quantity }} x {{ part.part.name }} @ KES {{ part.part.price }}</li>
-                {% empty %}
-                    <li>No parts used for this repair.</li>
-                {% endfor %}
-            </ul>
-        </div>
-
-        <a href="{% url 'repair_list' %}" class="button">Back</a>
+<div class="page-card">
+    <div class="page-header">
+        <h2>Repair Details</h2>
     </div>
+
+    <div class="detail-info">
+        <p><strong>Customer:</strong> {{ repair.customer.name }}</p>
+        <p><strong>Motorcycle:</strong> {{ repair.motorcycle }}</p>
+        <p><strong>Status:</strong> {{ repair.status }}</p>
+        <p><strong>Complaint:</strong> {{ repair.complaint }}</p>
+        <p><strong>Date In:</strong> {{ repair.date_in }}</p>
+        <p><strong>Date Out:</strong> {{ repair.date_out }}</p>
+        <p><strong>Work Done:</strong> {{ repair.work_done }}</p>
+        <p><strong>Cost of Service:</strong> KES {{ repair.cost_of_service }}</p>
+        <p><strong>Part(s) Used:</strong></p>
+        <ul>
+            {% for part in parts %}
+                <li>{{ part.quantity }} x {{ part.part.name }} @ KES {{ part.part.price }}</li>
+            {% empty %}
+                <li>No parts used for this repair.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <a href="{% url 'repair_list' %}" class="button">Back</a>
 </div>
 {% endblock %}

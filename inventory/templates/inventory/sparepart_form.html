@@ -2,19 +2,17 @@
 
 
 {% block content %}
-<div class="container">
-    <div class="page-card form-card">
-        <h2>{{ title }}</h2>
-        <form method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                {{ form.as_p }}
-            </div>
-            <div class="form-actions">
-                <button type="submit" class="action-button green">Save Chnges</button>
-                <a href="{% url 'sparepart_list' %}" class="action-button red">Cancel</a>
-            </div>
-        </form>
-    </div>
+<div class="page-card form-card">
+    <h2>{{ title }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="action-button green">Save Chnges</button>
+            <a href="{% url 'sparepart_list' %}" class="action-button red">Cancel</a>
+        </div>
+    </form>
 </div>
 {% endblock %}

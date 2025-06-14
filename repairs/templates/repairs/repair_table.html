@@ -2,7 +2,6 @@
 <table class="styled-table">
     <thead>
         <tr>
-            <th>Customer</th>
             <th>Motorcycle</th>
             <th>Status</th>
             <th>Cost of Service</th>
@@ -12,7 +11,6 @@
     <tbody>
         {% for repair in repairs %}
         <tr>
-            <td>{{ repair.customer.name }}</td>
             <td>{{ repair.motorcycle }}</td>
             <td>
                 <span class="status-badge {{ repair.status|lower }}">

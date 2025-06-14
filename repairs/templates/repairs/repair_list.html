@@ -1,32 +1,29 @@
 {% extends "base_dashboard.html" %}
 {% block content %}
 
-<div class="container">
-    <div class="page-card">
-        <div class="page-header">
-            <h2>Repair Records</h2>
-            <a href="{% url 'add_repair' %}" class="action-button green">Add New Repair +</a>
-        </div>
-
-        {% if messages %}
-            <div style="color: chartreuse;" class="messages">
-                {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
-                    {{ message }}
-                </div>
-                {% endfor %}
-            </div>
-        {% endif %}
-
-        <h3>Pending Repairs</h3>
-        {% include "repairs/repair_table.html" with repairs=pending_repairs %}
-
-        <h3>Completed Repairs</h3>
-        {% include "repairs/repair_table.html" with repairs=completed_repairs %}
-
-        <h3>Cancelled Repairs</h3>
-        {% include "repairs/repair_table.html" with repairs=cancelled_repairs %}
+<div class="page-card">
+    <div class="page-header">
+        <h2>Repair Records</h2>
+        <a href="{% url 'add_repair' %}" class="action-button green">Add New Repair +</a>
     </div>
-</div>
 
+    {% if messages %}
+        <div style="color: chartreuse;" class="messages">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <h3>Pending Repairs</h3>
+    {% include "repairs/repair_table.html" with repairs=pending_repairs %}
+
+    <h3>Completed Repairs</h3>
+    {% include "repairs/repair_table.html" with repairs=completed_repairs %}
+
+    <h3>Cancelled Repairs</h3>
+    {% include "repairs/repair_table.html" with repairs=cancelled_repairs %}
+</div>
 {% endblock %}
