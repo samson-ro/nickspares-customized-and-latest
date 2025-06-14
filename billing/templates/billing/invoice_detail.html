@@ -1,7 +1,6 @@
-{% extends "base.html" %}
+{% extends "base_dashboard.html" %}
 
 {% block content %}
-<div class="container">
     <div class="page-card">
         <div class="page-header">
             <h2>Invoice Details</h2>
@@ -37,5 +36,4 @@
         </div>
         <a href="{% url 'invoice_list' %}" class="button">Back</a>
     </div>
-</div>
 {% endblock %}
