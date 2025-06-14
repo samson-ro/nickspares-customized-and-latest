@@ -50,6 +50,11 @@ def supplier_list(request):
     return render(request, 'inventory/supplier_list.html', {'suppliers': suppliers})
 
 @login_required
+def supplier_detail(request, pk):
+    supplier = get_object_or_404(Supplier, pk=pk)
+    return render(request, 'inventory/supplier_detail.html', {'supplier': supplier})
+
+@login_required
 def add_supplier(request):
     if request.method == 'POST':
         form = SupplierForm(request.POST)

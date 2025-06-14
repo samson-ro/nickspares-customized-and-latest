@@ -18,6 +18,7 @@
                 <td>{{ s.phone }}</td>
                 <td>{{ s.email }}</td>
                 <td>
+                    <a href="{% url 'supplier_detail' s.pk %}" class="small-btn blue">View</a>
                     <a href="{% url 'edit_supplier' s.pk %}" class="small-btn yellow">Edit</a>
                     <a href="{% url 'delete_supplier' s.pk %}" class="small-btn red">Delete</a>
                 </td>

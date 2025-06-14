@@ -2,9 +2,6 @@
 
 
 {% block content %}
-<nav>
-    <a href="{% url 'dashboard' %}" class="button">Back</a>
-</nav>
 <div class="container">
     <div class="page-card">
         <div class="page-header">
@@ -18,9 +15,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Phone Number</th>
-                    <th>Email</th>
                     <th>Address</th>
-                    <th>Date Created</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -29,9 +24,7 @@
                 <tr>
                     <td>{{ customer.name }}</td>
                     <td>{{ customer.phone_number }}</td>
-                    <td>{{ customer.email }}</td>
                     <td>{{ customer.address }}</td>
-                    <td>{{ customer.date_created }}</td>
                     <td>
                         <a href="{% url 'customer_detail' customer.id %}" class="small-btn blue">View</a>
                         <a href="{% url 'edit_customer' customer.pk %}" class="small-btn yellow">Edit</a>

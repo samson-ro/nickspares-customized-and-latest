@@ -13,6 +13,7 @@ urlpatterns = [
     path('suppliers/add/', views.add_supplier, name='add_supplier'),
     path('suppliers/<int:pk>/edit/', views.edit_supplier, name='edit_supplier'),
     path('suppliers/<int:pk>/delete/', views.delete_supplier, name='delete_supplier'),
+    path('suppliers/<int:pk>/', views.supplier_detail, name='supplier_detail'),
 
     # Part Category URLs
     path('partcategory/', views.partcategory_list, name='partcategory_list'),

@@ -1,0 +1,18 @@
+{% extends "base_dashboard.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="page-card">
+        <div class="page-header">
+            <h2>Supplier Details</h2>           
+        </div>
+        <div class="detail-info">
+            <p><strong>Name:</strong> {{ supplier.name }}</p>
+            <p><strong>Phone:</strong> {{ supplier.phone }}</p>
+            <p><strong>Email:</strong> {{ supplier.email }}</p>
+            <p><strong>Address:</strong> {{ supplier.address }}</p>
+        </div>
+        <a href="{% url 'supplier_list' %}" class="button">Back</a>
+    </div>
+</div>
+{% endblock %}

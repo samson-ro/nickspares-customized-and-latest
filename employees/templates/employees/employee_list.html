@@ -2,9 +2,6 @@
 
 
 {% block content %}
-<nav>
-    <a href="{% url 'dashboard' %}" class="button">Back</a>
-</nav>
 <div class="container">
     <div class="page-card">
         <div class="page-header">
@@ -17,8 +14,6 @@
                 <tr>
                     <th>Name</th>
                     <th>Role</th>
-                    <th>Phone</th>
-                    <th>Email</th>
                     <th>Hire Date</th>
                     <th>Actions</th>
                 </tr>
@@ -28,8 +23,6 @@
                 <tr>
                     <td>{{ emp.name }}</td>
                     <td>{{ emp.role }}</td>
-                    <td>{{ emp.phone_number }}</td>
-                    <td>{{ emp.email }}</td>
                     <td>{{ emp.hire_date|date:"Y-m-d H:i" }}</td>
                     <td>
                         <a href="{% url 'employee_detail' emp.id %}" class="small-btn blue">View</a>
