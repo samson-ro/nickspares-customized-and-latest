@@ -44,5 +44,6 @@ urlpatterns = [
     path("suppliers/parts-supplied/", views.parts_supplied_per_supplier, name="parts_supplied_per_supplier"),
     path("suppliers/top-value/", views.top_suppliers_by_value, name="top_suppliers_by_value"),
     path("suppliers/low-stock/", views.low_stock_by_supplier, name="low_stock_by_supplier"),
+    path("overview/", views.reports_overview, name="reports_overview"),
 
 ]

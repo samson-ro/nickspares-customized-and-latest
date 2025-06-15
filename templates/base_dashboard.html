@@ -181,7 +181,7 @@
             box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
         }
     </style>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -208,8 +208,9 @@
 
             <h2>Nick's Auto Spares</h2>
 
-            <a href="{% url 'dashboard' %}" class="{% if request.path == '/' %}active{% endif %}">
-                <i class="fas fa-home"></i>  Dashboard (Home)</a>
+            <a href="{% url 'reports_overview' %}" class="{% if request.path == '/reports/overview/' %}active{% endif %}">
+                <i class="fas fa-chart-line"></i> Dashboard
+            </a>
 
             <button class="toggle {% if 'repairs' in request.path or 'motorcycles' in request.path or 'motorcyclemodels' in request.path %}active{% endif %}" onclick="toggleMenu('repairsSubmenu', this)">
                 <i class="fas fa-tools"></i> Repairs

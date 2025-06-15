@@ -1,0 +1,87 @@
+{% extends "base_dashboard.html" %}
+{% block content %}
+<h2>📊 Reports Dashboard Overview</h2>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 30px;">
+
+    <!-- Revenue -->
+    <div class="report-card">
+        <h3>Total Revenue</h3>
+        <p><strong>KES {{ total_revenue|floatformat:2 }}</strong></p>
+    </div>
+
+    <!-- Unpaid -->
+    <div class="report-card">
+        <h3>Unpaid Invoices</h3>
+        <p><strong>{{ unpaid_count }}</strong> invoices</p>
+        <p>Total: <strong>KES {{ unpaid_total|floatformat:2 }}</strong></p>
+    </div>
+
+    <!-- Repairs -->
+    <div class="report-card">
+        <h3>Completed Repairs</h3>
+        <p><strong>{{ repair_count }}</strong> repairs</p>
+        <p>Avg Time: <strong>
+            {% if avg_repair_time %}
+                {{ avg_repair_time }} hrs
+            {% else %}
+                N/A
+            {% endif %}
+        </strong></p>
+    </div>
+
+    <!-- Top Customer -->
+    <div class="report-card">
+        <h3>Top Customer</h3>
+        {% if top_customer %}
+            <p>{{ top_customer.customer__name }}</p>
+            <p><strong>KES {{ top_customer.total_spent|floatformat:2 }}</strong></p>
+        {% else %}
+            <p>No data</p>
+        {% endif %}
+    </div>
+
+    <!-- Top Mechanic -->
+    <div class="report-card">
+        <h3>Top Mechanic</h3>
+        {% if top_mechanic %}
+            <p>{{ top_mechanic.mechanic__name }}</p>
+            <p><strong>KES {{ top_mechanic.total_earned|floatformat:2 }}</strong></p>
+        {% else %}
+            <p>No data</p>
+        {% endif %}
+    </div>
+
+    <!-- Inventory -->
+    <div class="report-card">
+        <h3>Inventory Value</h3>
+        <p><strong>KES {{ inventory_value|floatformat:2 }}</strong></p>
+    </div>
+
+    <!-- Low Stock -->
+    <div class="report-card">
+        <h3>Low Stock Parts</h3>
+        <p><strong>{{ low_stock_count }}</strong> items</p>
+    </div>
+</div>
+
+<style>
+.report-card {
+    flex: 1 1 240px;
+    background-color: #ecf0f1;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+.report-card h3 {
+    margin-top: 0;
+    font-size: 1.1em;
+    color: #2c3e50;
+}
+.report-card p {
+    margin: 0.3rem 0;
+    font-size: 0.95em;
+}
+</style>
+
+{% endblock %}
