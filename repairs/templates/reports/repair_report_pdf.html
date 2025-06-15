@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Monthly Repair Report</title>
+    <style>
+        body { font-family: sans-serif; font-size: 13px; margin: 30px; }
+        h2 { text-align: center; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #999; padding: 8px; text-align: left; }
+        th { background-color: #f0f0f0; }
+        .footer { margin-top: 30px; text-align: right; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h2>Monthly Repair Report</h2>
+
+    {% if start_date and end_date %}
+        <p><strong>Period:</strong> {{ start_date }} to {{ end_date }}</p>
+    {% endif %}
+    {% if mechanic %}
+        <p><strong>Mechanic:</strong> {{ mechanic }}</p>
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Date In</th>
+                <th>Mechanic</th>
+                <th>Customer</th>
+                <th>Motorcycle</th>
+                <th>Status</th>
+                <th>Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in repairs %}
+            <tr>
+                <td>{{ r.date_in|date:"Y-m-d" }}</td>
+                <td>{{ r.mechanic }}</td>
+                <td>{{ r.customer }}</td>
+                <td>{{ r.motorcycle }}</td>
+                <td>{{ r.status }}</td>
+                <td>{{ r.cost_of_service }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="footer">
+        <p>Total Repairs: {{ repairs|length }}</p>
+        <p>Total Cost: {{ repairs|sum:"cost_of_service" }}</p>
+    </div>
+</body>
+</html>

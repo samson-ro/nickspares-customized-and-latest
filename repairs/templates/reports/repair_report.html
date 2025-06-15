@@ -1,0 +1,37 @@
+{% extends "base_dashboard.html" %}
+{% load static %}
+
+{% block content %}
+<div class="page-card">
+    <h2>Repair Report</h2>
+    <form method="get" style="margin-bottom: 20px;">
+        {{ form.as_p }}
+        <button type="submit" class="action-button green">Filter</button>
+        {% if repairs %}
+            <a href="{% url 'repair_report_pdf' %}?start_date={{ form.start_date.value }}&end_date={{ form.end_date.value }}{% if form.mechanic.value %}&mechanic={{ form.mechanic.value }}{% endif %}" class="action-button blue" target="_blank">Export to PDF</a>
+        {% endif %}
+    </form>
+
+    {% if repairs %}
+    <table class="styled-table">
+        <thead>
+            <tr><th>Date In</th><th>Mechanic</th><th>Customer</th><th>Motorcycle</th><th>Status</th><th>Cost</th></tr>
+        </thead>
+        <tbody>
+            {% for r in repairs %}
+            <tr>
+                <td>{{ r.date_in|date:"Y-m-d" }}</td>
+                <td>{{ r.mechanic }}</td>
+                <td>{{ r.customer }}</td>
+                <td>{{ r.motorcycle }}</td>
+                <td>{{ r.status }}</td>
+                <td>{{ r.cost_of_service }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No repairs found for the selected criteria.</p>
+    {% endif %}
+</div>
+{% endblock %}

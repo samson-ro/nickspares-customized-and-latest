@@ -4,6 +4,8 @@ from django.forms import inlineformset_factory
 from inventory.models import SparePart
 from .models import RepairRecord, RepairPart, MotorcycleModel, Motorcycle
 
+from employees.models import Employee
+
 class RepairRecordForm(forms.ModelForm):
     class Meta:
         model = RepairRecord
@@ -46,3 +48,12 @@ class MotorcycleForm(forms.ModelForm):
     class Meta:
         model = Motorcycle
         fields = ['model', 'license_plate', 'year', 'customer']
+
+class RepairReportForm(forms.Form):
+    start_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    end_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    mechanic = forms.ModelChoiceField(
+        queryset=Employee.objects.all(),
+        required=False,
+        empty_label="All Mechanics"
+    )

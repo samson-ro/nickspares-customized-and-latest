@@ -1,9 +1,17 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import RepairRecord, RepairPart, MotorcycleModel, Motorcycle
-from .forms import RepairPartFormSet, RepairRecordForm, RepairPartForm, MotorcycleModelForm, MotorcycleForm
+from .forms import RepairPartFormSet, RepairRecordForm, RepairPartForm, MotorcycleModelForm, MotorcycleForm, RepairReportForm
 from django.forms import inlineformset_factory
-from .models import RepairRecord, MotorcycleModel, Motorcycle
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count, Sum
+from django.template.loader import get_template
+from django.http import HttpResponse
+import weasyprint
+from django.utils.timezone import make_aware
+
+from weasyprint import HTML
+from django.template.loader import render_to_string
+import tempfile
 
 # List all repair records
 @login_required
@@ -224,3 +232,60 @@ def delete_motorcycle(request, pk):
         motorcycle.delete()
         return redirect('motorcycle_list')
     return render(request, 'repairs/confirm_delete.html', {'object': motorcycle, 'title': 'Delete Motorcycle'})
+
+import datetime
+
+@login_required
+def repair_report(request):
+    start = request.GET.get('start')
+    end = request.GET.get('end')
+    records = RepairRecord.objects.select_related('mechanic').all()
+
+    print("START PARAM:", start)
+    print("END PARAM:", end)
+
+    if start and end:
+        try:
+            start_date = make_aware(datetime.strptime(start, "%Y-%m-%d"))
+            end_date = make_aware(datetime.strptime(end, "%Y-%m-%d"))
+        except Exception as e:
+            print("Date parse error:", e)
+            return render(request, "reports/repair_report.html", {
+                "summary": [],
+                "start_date": start,
+                "end_date": end,
+                "error": "Invalid date format"
+            })
+
+        records = records.filter(date_in__range=(start_date, end_date))
+        print("RECORD COUNT:", records.count())
+
+        summary = (
+            records.values('mechanic__id', 'mechanic__name')
+            .annotate(total_repairs=Count('id'), total_cost=Sum('cost_of_service'))
+            .order_by('-total_repairs')
+        )
+
+        if request.GET.get("export") == "pdf":
+            html = get_template("reports/repair_report_pdf.html").render({
+                "summary": summary,
+                "start_date": start,
+                "end_date": end
+            })
+            response = HttpResponse(content_type="application/pdf")
+            response['Content-Disposition'] = 'attachment; filename="repair_report.pdf"'
+            weasyprint.HTML(string=html).write_pdf(response)
+            return response
+
+        return render(request, "reports/repair_report.html", {
+            "summary": summary,
+            "start_date": start,
+            "end_date": end
+        })
+
+    # If no start/end date provided, render an empty form
+    return render(request, "reports/repair_report.html", {
+        "summary": [],
+        "start_date": None,
+        "end_date": None
+    })
