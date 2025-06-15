@@ -1,0 +1,35 @@
+{% extends "base_dashboard.html" %}
+{% block content %}
+
+<h2>Top Suppliers by Inventory Value</h2>
+
+<form method="get">
+    {% if suppliers %}
+    <button type="submit" name="format" value="pdf" class="btn">Download PDF</button>
+    {% endif %}
+</form>
+
+{% if suppliers %}
+<table class="styled-table" style="margin-top: 20px;">
+    <thead>
+        <tr>
+            <th>Supplier</th>
+            <th>Total Inventory Value (KES)</th>
+            <th>Total Parts</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in suppliers %}
+        <tr>
+            <td>{{ s.supplier__name }}</td>
+            <td>{{ s.total_value|floatformat:2 }}</td>
+            <td>{{ s.total_parts }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No supplier value data found.</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base_dashboard.html" %}
+{% block content %}
+
+<h2>Employee Summary Report</h2>
+
+<form method="get">
+    <label>From: <input type="date" name="from" value="{{ from_date }}"></label>
+    <label>To: <input type="date" name="to" value="{{ to_date }}"></label>
+    <button type="submit" class="btn">Filter</button>
+    {% if employees %}
+    <button type="submit" name="format" value="pdf" class="btn">Download PDF</button>
+    {% endif %}
+</form>
+
+{% if employees %}
+<table class="styled-table" style="margin-top: 20px;">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Hire Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for e in employees %}
+        <tr>
+            <td>{{ e.name }}</td>
+            <td>{{ e.role }}</td>
+            <td>{{ e.phone_number|default:"-" }}</td>
+            <td>{{ e.email|default:"-" }}</td>
+            <td>{{ e.hire_date|date:"Y-m-d" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No employees found in this range.</p>
+{% endif %}
+
+{% endblock %}

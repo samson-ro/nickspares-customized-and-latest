@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice Report PDF</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            color: #333;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #222;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table, th, td {
+            border: 1px solid #bbb;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .note {
+            font-style: italic;
+            color: #777;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Invoice Report</h2>
+
+{% if from_date %}
+    {% if to_date %}
+        <p><strong>Filtered:</strong> From {{ from_date }} to {{ to_date }}</p>
+    {% else %}
+        <p><strong>Filtered:</strong> From {{ from_date }}</p>
+    {% endif %}
+{% elif to_date %}
+    <p><strong>Filtered:</strong> Up to {{ to_date }}</p>
+{% endif %}
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Amount</th>
+            <th>Paid</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for invoice in invoices %}
+        <tr>
+            <td>{{ invoice.id }}</td>
+            <td>{{ invoice.customer.name }}</td>
+            <td>KES {{ invoice.amount }}</td>
+            <td>{{ invoice.paid|yesno:"Yes,No" }}</td>
+            <td>{{ invoice.date_issued|date:"Y-m-d" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">No invoices found in this range.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

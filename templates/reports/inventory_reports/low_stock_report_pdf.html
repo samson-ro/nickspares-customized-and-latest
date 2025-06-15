@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Low Stock Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; padding: 20px; }
+        h2 { text-align: center; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #bbb; padding: 6px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<h2>Low Stock Report</h2>
+
+{% if from_date or to_date %}
+<p>
+    <strong>Filtered:</strong>
+    {% if from_date %} From {{ from_date }}{% endif %}
+    {% if to_date %} to {{ to_date }}{% endif %}
+</p>
+{% endif %}
+
+{% if parts %}
+<table>
+    <thead>
+        <tr>
+            <th>Part Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th>Unit Price (KES)</th>
+            <th>Supplier</th>
+            <th>Total Value (KES)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for part in parts %}
+        <tr>
+            <td>{{ part.name }}</td>
+            <td>
+                {% if part.category %}
+                    {{ part.category.name }}
+                {% else %}
+                    Uncategorized
+                {% endif %}
+            </td>
+            <td>{{ part.quantity }}</td>
+            <td>
+                {% if part.quantity <= 2 %}
+                    CRITICAL
+                {% else %}
+                    Low
+                {% endif %}
+            </td>
+            <td>{{ part.price|floatformat:2 }}</td>
+            <td>
+                {% if part.supplier %}
+                    {{ part.supplier.name }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+            <td>{{ part.total_value|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No low stock parts found.</p>
+{% endif %}
+
+</body>
+</html>

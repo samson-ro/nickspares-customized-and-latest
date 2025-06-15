@@ -1,0 +1,40 @@
+{% extends "base_dashboard.html" %}
+{% block content %}
+
+<h2>Supplier Summary Report</h2>
+
+<form method="get">
+    {% if suppliers %}
+    <button type="submit" name="format" value="pdf" class="btn">Download PDF</button>
+    {% endif %}
+</form>
+
+{% if suppliers %}
+<table class="styled-table" style="margin-top: 20px;">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Contact Person</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Address</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in suppliers %}
+        <tr>
+            <td>{{ s.name }}</td>
+            <td>{{ s.contact_person|default:"-" }}</td>
+            <td>{{ s.phone|default:"-" }}</td>
+            <td>{{ s.email|default:"-" }}</td>
+            <td>{{ s.address|default:"-" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No suppliers found.</p>
+{% endif %}
+
+{% endblock %}
+s

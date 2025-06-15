@@ -1,0 +1,38 @@
+{% extends "base_dashboard.html" %}
+{% block content %}
+
+<h2>Top Performing Mechanics</h2>
+
+<form method="get">
+    <label>From: <input type="date" name="from" value="{{ from_date }}"></label>
+    <label>To: <input type="date" name="to" value="{{ to_date }}"></label>
+    <button type="submit" class="btn">Filter</button>
+    {% if performance %}
+    <button type="submit" name="format" value="pdf" class="btn">Download PDF</button>
+    {% endif %}
+</form>
+
+{% if performance %}
+<table class="styled-table" style="margin-top: 20px;">
+    <thead>
+        <tr>
+            <th>Mechanic</th>
+            <th>Total Revenue (KES)</th>
+            <th>Total Repairs</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for m in performance %}
+        <tr>
+            <td>{{ m.mechanic__name }}</td>
+            <td>{{ m.total_revenue|floatformat:2 }}</td>
+            <td>{{ m.total_repairs }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No mechanic performance data in this range.</p>
+{% endif %}
+
+{% endblock %}

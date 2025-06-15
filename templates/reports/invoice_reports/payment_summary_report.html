@@ -1,0 +1,31 @@
+{% extends "base_dashboard.html" %}
+
+{% block content %}
+<h2>Invoice Totals by Payment Method</h2>
+
+<form method="get">
+    <label>From: <input type="date" name="from" value="{{ from_date }}"></label>
+    <label>To: <input type="date" name="to" value="{{ to_date }}"></label>
+    <button type="submit" class="btn">Filter</button>
+    <button type="submit" name="format" value="pdf" class="btn">Download PDF</button>
+</form>
+
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>Payment Method</th>
+            <th>Total Amount (KES)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for method, total in summary.items %}
+        <tr>
+            <td>{{ method }}</td>
+            <td>{{ total|floatformat:2 }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="2">No data available.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Repair Summary Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; padding: 20px; }
+        h2 { text-align: center; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        table, th, td { border: 1px solid #bbb; }
+        th, td { padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<h2>Repair Summary Report</h2>
+
+{% if from_date or to_date %}
+<p><strong>Filtered:</strong>
+    {% if from_date %} From {{ from_date }}{% endif %}
+    {% if to_date %} to {{ to_date }}{% endif %}
+</p>
+{% endif %}
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Motorcycle</th>
+            <th>Mechanic</th>
+            <th>Status</th>
+            <th>Cost of Service (KES)</th>
+            <th>Date In</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for repair in repairs %}
+        <tr>
+            <td>{{ repair.id }}</td>
+            <td>{{ repair.customer.name }}</td>
+            <td>
+                {% if repair.motorcycle %}
+                    {{ repair.motorcycle.model.name }} - {{ repair.motorcycle.license_plate }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+            <td>
+                {% if repair.mechanic %}
+                    {{ repair.mechanic.name }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+            <td>{{ repair.status }}</td>
+            <td>{{ repair.cost_of_service }}</td>
+            <td>{{ repair.date_in|date:"Y-m-d" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

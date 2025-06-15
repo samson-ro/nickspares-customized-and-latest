@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'billing',
     'core',
     'django_extensions',
+    'reports',
 ]
 
 MIDDLEWARE = [

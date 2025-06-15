@@ -1,0 +1,37 @@
+{% extends "base_dashboard.html" %}
+
+{% block content %}
+<h2>Customers with Most Repairs</h2>
+
+<form method="get">
+    <label>From: <input type="date" name="from" value="{{ from_date }}"></label>
+    <label>To: <input type="date" name="to" value="{{ to_date }}"></label>
+    <button type="submit" class="btn">Filter</button>
+    {% if ranked_customers %}
+    <button type="submit" name="format" value="pdf" class="btn">Download PDF</button>
+    {% endif %}
+</form>
+
+{% if ranked_customers %}
+<table class="styled-table" style="margin-top: 20px;">
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Repairs</th>
+            <th>Total Cost (KES)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in ranked_customers %}
+        <tr>
+            <td>{{ c.customer__name }}</td>
+            <td>{{ c.total_repairs }}</td>
+            <td>{{ c.total_cost|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No repairs found in this range.</p>
+{% endif %}
+{% endblock %}

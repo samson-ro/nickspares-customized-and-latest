@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Top Suppliers by Inventory Value</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; padding: 20px; }
+        h2 { text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 6px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<h2>Top Suppliers by Inventory Value</h2>
+
+{% if suppliers %}
+<table>
+    <thead>
+        <tr>
+            <th>Supplier</th>
+            <th>Total Inventory Value (KES)</th>
+            <th>Total Parts</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in suppliers %}
+        <tr>
+            <td>{{ s.supplier__name }}</td>
+            <td>{{ s.total_value|floatformat:2 }}</td>
+            <td>{{ s.total_parts }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No data available.</p>
+{% endif %}
+
+</body>
+</html>

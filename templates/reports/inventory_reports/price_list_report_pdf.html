@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Spare Parts Price List</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; padding: 20px; }
+        h2 { text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #bbb; padding: 6px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<h2>Spare Parts Price List</h2>
+
+{% if from_date or to_date %}
+<p><strong>Filtered:</strong>
+    {% if from_date %} From {{ from_date }}{% endif %}
+    {% if to_date %} to {{ to_date }}{% endif %}
+</p>
+{% endif %}
+
+{% if parts %}
+<table>
+    <thead>
+        <tr>
+            <th>Part Name</th>
+            <th>Category</th>
+            <th>Supplier</th>
+            <th>Unit Price</th>
+            <th>Quantity</th>
+            <th>Total Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for part in parts %}
+        <tr>
+            <td>{{ part.name }}</td>
+            <td>
+                {% if part.category %}
+                    {{ part.category.name }}
+                {% else %}
+                    Uncategorized
+                {% endif %}
+            </td>
+            <td>
+                {% if part.supplier %}
+                    {{ part.supplier.name }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+            <td>{{ part.price|floatformat:2 }}</td>
+            <td>{{ part.quantity }}</td>
+            <td>{{ part.total_value|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No spare parts found.</p>
+{% endif %}
+
+</body>
+</html>

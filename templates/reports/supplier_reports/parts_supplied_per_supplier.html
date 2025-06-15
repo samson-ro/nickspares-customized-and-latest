@@ -1,0 +1,35 @@
+{% extends "base_dashboard.html" %}
+{% block content %}
+
+<h2>Parts Supplied per Supplier</h2>
+
+<form method="get">
+    {% if supplier_stats %}
+    <button type="submit" name="format" value="pdf" class="btn">Download PDF</button>
+    {% endif %}
+</form>
+
+{% if supplier_stats %}
+<table class="styled-table" style="margin-top: 20px;">
+    <thead>
+        <tr>
+            <th>Supplier</th>
+            <th># of Spare Parts</th>
+            <th>Total Inventory Value (KES)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in supplier_stats %}
+        <tr>
+            <td>{{ s.supplier__name }}</td>
+            <td>{{ s.total_parts }}</td>
+            <td>{{ s.total_value|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No supplier data available.</p>
+{% endif %}
+
+{% endblock %}

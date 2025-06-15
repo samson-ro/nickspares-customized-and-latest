@@ -1,0 +1,57 @@
+{% extends "base_dashboard.html" %}
+
+{% block content %}
+<h2>Repair Summary Report</h2>
+
+<form method="get">
+    <label>From: <input type="date" name="from" value="{{ from_date }}"></label>
+    <label>To: <input type="date" name="to" value="{{ to_date }}"></label>
+    <button type="submit" class="btn">Filter</button>
+    {% if repairs %}
+    <button type="submit" name="format" value="pdf" class="btn">Download PDF</button>
+    {% endif %}
+</form>
+
+{% if repairs %}
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Motorcycle</th>
+            <th>Mechanic</th>
+            <th>Status</th>
+            <th>Cost of Service (KES)</th>
+            <th>Date In</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for repair in repairs %}
+        <tr>
+            <td>{{ repair.id }}</td>
+            <td>{{ repair.customer.name }}</td>
+            <td>
+                {% if repair.motorcycle %}
+                    {{ repair.motorcycle.model.name }} - {{ repair.motorcycle.license_plate }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+            <td>
+                {% if repair.mechanic %}
+                    {{ repair.mechanic.name }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+            <td>{{ repair.status }}</td>
+            <td>{{ repair.cost_of_service }}</td>
+            <td>{{ repair.date_in|date:"Y-m-d" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No repairs found in this range.</p>
+{% endif %}
+{% endblock %}

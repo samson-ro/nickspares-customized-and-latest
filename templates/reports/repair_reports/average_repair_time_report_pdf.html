@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Average Repair Time Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; padding: 20px; }
+        h2 { text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #bbb; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<h2>Average Repair Time Report</h2>
+
+{% if from_date or to_date %}
+<p>
+    <strong>Filtered:</strong>
+    {% if from_date %} From {{ from_date }}{% endif %}
+    {% if to_date %} to {{ to_date }}{% endif %}
+</p>
+{% endif %}
+
+{% if repairs %}
+<p>Total completed repairs: {{ repairs|length }}</p>
+<p><strong>Average Repair Time:</strong> {{ avg_duration|floatformat:1 }} hours</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Motorcycle</th>
+            <th>Date In</th>
+            <th>Date Out</th>
+            <th>Duration (hrs)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in repairs %}
+        <tr>
+            <td>{{ r.id }}</td>
+            <td>{{ r.customer.name }}</td>
+            <td>{{ r.motorcycle }}</td>
+            <td>{{ r.date_in }}</td>
+            <td>{{ r.date_out }}</td>
+            <td>{{ r.duration|floatformat:1 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No completed repairs found in this period.</p>
+{% endif %}
+
+</body>
+</html>

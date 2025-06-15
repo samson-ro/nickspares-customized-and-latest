@@ -1,0 +1,37 @@
+{% extends "base_dashboard.html" %}
+
+{% block content %}
+<h2>Unpaid Invoices Report</h2>
+
+<form method="get">
+    <label>From: <input type="date" name="from" value="{{ from_date }}"></label>
+    <label>To: <input type="date" name="to" value="{{ to_date }}"></label>
+    <button type="submit" class="btn">Filter</button>
+    <button type="submit" name="format" value="pdf" class="btn">Download PDF</button>
+</form>
+
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Amount</th>
+            <th>Date Issued</th>
+            <th>Payment Method</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for invoice in invoices %}
+        <tr>
+            <td>{{ invoice.id }}</td>
+            <td>{{ invoice.customer.name }}</td>
+            <td>KES {{ invoice.amount }}</td>
+            <td>{{ invoice.date_issued|date:"Y-m-d" }}</td>
+            <td>{{ invoice.payment_method }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">No unpaid invoices found.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

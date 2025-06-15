@@ -1,0 +1,37 @@
+{% extends "base_dashboard.html" %}
+
+{% block content %}
+<h2>Repair Parts Usage</h2>
+
+<form method="get">
+    <label>From: <input type="date" name="from" value="{{ from_date }}"></label>
+    <label>To: <input type="date" name="to" value="{{ to_date }}"></label>
+    <button type="submit" class="btn">Filter</button>
+    {% if part_usage %}
+    <button type="submit" name="format" value="pdf" class="btn">Download PDF</button>
+    {% endif %}
+</form>
+
+{% if part_usage %}
+<table class="styled-table" style="margin-top: 20px;">
+    <thead>
+        <tr>
+            <th>Part</th>
+            <th>Quantity Used</th>
+            <th>Total Cost (KES)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for part, data in part_usage.items %}
+        <tr>
+            <td>{{ part }}</td>
+            <td>{{ data.quantity }}</td>
+            <td>{{ data.total|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No part usage found in this period.</p>
+{% endif %}
+{% endblock %}

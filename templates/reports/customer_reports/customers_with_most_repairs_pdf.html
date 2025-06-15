@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Most Repairs Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; padding: 20px; }
+        h2 { text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #bbb; padding: 6px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<h2>Customers with Most Repairs</h2>
+
+{% if from_date or to_date %}
+<p><strong>Filtered:</strong>
+    {% if from_date %} From {{ from_date }}{% endif %}
+    {% if to_date %} to {{ to_date }}{% endif %}
+</p>
+{% endif %}
+
+{% if ranked_customers %}
+<table>
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Repairs</th>
+            <th>Total Cost (KES)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in ranked_customers %}
+        <tr>
+            <td>{{ c.customer__name }}</td>
+            <td>{{ c.total_repairs }}</td>
+            <td>{{ c.total_cost|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No data found.</p>
+{% endif %}
+
+</body>
+</html>

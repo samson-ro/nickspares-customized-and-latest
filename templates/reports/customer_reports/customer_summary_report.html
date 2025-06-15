@@ -1,0 +1,41 @@
+{% extends "base_dashboard.html" %}
+
+{% block content %}
+<h2>Customer Summary Report</h2>
+
+<form method="get">
+    <label>From: <input type="date" name="from" value="{{ from_date }}"></label>
+    <label>To: <input type="date" name="to" value="{{ to_date }}"></label>
+    <button type="submit" class="btn">Filter</button>
+    {% if customers %}
+    <button type="submit" name="format" value="pdf" class="btn">Download PDF</button>
+    {% endif %}
+</form>
+
+{% if customers %}
+<table class="styled-table" style="margin-top: 20px;">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Date Created</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in customers %}
+        <tr>
+            <td>{{ c.name }}</td>
+            <td>{{ c.phone_number }}</td>
+            <td>{{ c.email|default:"-" }}</td>
+            <td>{{ c.address|default:"-" }}</td>
+            <td>{{ c.date_created|date:"Y-m-d" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No customers found in this range.</p>
+{% endif %}
+{% endblock %}

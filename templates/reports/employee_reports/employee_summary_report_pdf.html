@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Summary</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; padding: 20px; }
+        h2 { text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #bbb; padding: 6px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<h2>Employee Summary Report</h2>
+
+{% if from_date or to_date %}
+<p><strong>Filtered:</strong>
+    {% if from_date %} From {{ from_date }}{% endif %}
+    {% if to_date %} to {{ to_date }}{% endif %}
+</p>
+{% endif %}
+
+{% if employees %}
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Hire Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for e in employees %}
+        <tr>
+            <td>{{ e.name }}</td>
+            <td>{{ e.role }}</td>
+            <td>{{ e.phone_number|default:"-" }}</td>
+            <td>{{ e.email|default:"-" }}</td>
+            <td>{{ e.hire_date|date:"Y-m-d" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No employee data available.</p>
+{% endif %}
+
+</body>
+</html>

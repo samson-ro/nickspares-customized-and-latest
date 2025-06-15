@@ -1,0 +1,37 @@
+{% extends "base_dashboard.html" %}
+
+{% block content %}
+<h2>Top Customers by Revenue</h2>
+
+<form method="get">
+    <label>From: <input type="date" name="from" value="{{ from_date }}"></label>
+    <label>To: <input type="date" name="to" value="{{ to_date }}"></label>
+    <button type="submit" class="btn">Filter</button>
+    {% if top_customers %}
+    <button type="submit" name="format" value="pdf" class="btn">Download PDF</button>
+    {% endif %}
+</form>
+
+{% if top_customers %}
+<table class="styled-table" style="margin-top: 20px;">
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Invoices</th>
+            <th>Total Revenue (KES)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in top_customers %}
+        <tr>
+            <td>{{ c.customer__name }}</td>
+            <td>{{ c.invoice_count }}</td>
+            <td>{{ c.total_revenue|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No invoice data found in this range.</p>
+{% endif %}
+{% endblock %}

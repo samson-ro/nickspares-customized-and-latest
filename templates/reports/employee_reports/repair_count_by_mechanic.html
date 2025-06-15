@@ -1,0 +1,38 @@
+{% extends "base_dashboard.html" %}
+{% block content %}
+
+<h2>Repair Count by Mechanic</h2>
+
+<form method="get">
+    <label>From: <input type="date" name="from" value="{{ from_date }}"></label>
+    <label>To: <input type="date" name="to" value="{{ to_date }}"></label>
+    <button type="submit" class="btn">Filter</button>
+    {% if mechanic_data %}
+    <button type="submit" name="format" value="pdf" class="btn">Download PDF</button>
+    {% endif %}
+</form>
+
+{% if mechanic_data %}
+<table class="styled-table" style="margin-top: 20px;">
+    <thead>
+        <tr>
+            <th>Mechanic</th>
+            <th>Repairs Done</th>
+            <th>Total Repair Revenue (KES)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for m in mechanic_data %}
+        <tr>
+            <td>{{ m.mechanic__name }}</td>
+            <td>{{ m.total_repairs }}</td>
+            <td>{{ m.total_cost|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No mechanic repair data found in this range.</p>
+{% endif %}
+
+{% endblock %}

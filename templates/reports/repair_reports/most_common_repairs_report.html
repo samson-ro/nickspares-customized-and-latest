@@ -1,0 +1,37 @@
+{% extends "base_dashboard.html" %}
+
+{% block content %}
+<h2>Most Common Repairs</h2>
+
+<form method="get">
+    <label>From: <input type="date" name="from" value="{{ from_date }}"></label>
+    <label>To: <input type="date" name="to" value="{{ to_date }}"></label>
+    <button type="submit" class="btn">Filter</button>
+    {% if repair_stats %}
+    <button type="submit" name="format" value="pdf" class="btn">Download PDF</button>
+    {% endif %}
+</form>
+
+{% if repair_stats %}
+<table class="styled-table" style="margin-top: 20px;">
+    <thead>
+        <tr>
+            <th>Complaint / Issue</th>
+            <th>Occurrences</th>
+            <th>Total Cost (KES)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for issue, data in repair_stats.items %}
+        <tr>
+            <td>{{ issue }}</td>
+            <td>{{ data.count }}</td>
+            <td>{{ data.total|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No repair data available for this period.</p>
+{% endif %}
+{% endblock %}

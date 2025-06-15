@@ -1,0 +1,40 @@
+{% extends "base_dashboard.html" %}
+{% block content %}
+
+<h2>Monthly Repair Output by Mechanic</h2>
+
+<form method="get">
+    <label>From: <input type="date" name="from" value="{{ from_date }}"></label>
+    <label>To: <input type="date" name="to" value="{{ to_date }}"></label>
+    <button type="submit" class="btn">Filter</button>
+    {% if monthly_output %}
+    <button type="submit" name="format" value="pdf" class="btn">Download PDF</button>
+    {% endif %}
+</form>
+
+{% if monthly_output %}
+<table class="styled-table" style="margin-top: 20px;">
+    <thead>
+        <tr>
+            <th>Month</th>
+            <th>Mechanic</th>
+            <th>Repairs</th>
+            <th>Total Revenue (KES)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entry in monthly_output %}
+        <tr>
+            <td>{{ entry.month|date:"F Y" }}</td>
+            <td>{{ entry.mechanic__name }}</td>
+            <td>{{ entry.repair_count }}</td>
+            <td>{{ entry.total_revenue|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No repair data found in this range.</p>
+{% endif %}
+
+{% endblock %}

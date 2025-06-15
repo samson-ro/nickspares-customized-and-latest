@@ -1,0 +1,46 @@
+{% extends "base_dashboard.html" %}
+
+{% block content %}
+<h2>Average Repair Time Report</h2>
+
+<form method="get">
+    <label>From: <input type="date" name="from" value="{{ from_date }}"></label>
+    <label>To: <input type="date" name="to" value="{{ to_date }}"></label>
+    <button type="submit" class="btn">Filter</button>
+    {% if avg_duration or repairs %}
+    <button type="submit" name="format" value="pdf" class="btn">Download PDF</button>
+    {% endif %}
+</form>
+
+{% if repairs %}
+<p>Total completed repairs: {{ repairs|length }}</p>
+<p><strong>Average Repair Time:</strong> {{ avg_duration|floatformat:1 }} hours</p>
+
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Motorcycle</th>
+            <th>Date In</th>
+            <th>Date Out</th>
+            <th>Duration (hrs)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in repairs %}
+        <tr>
+            <td>{{ r.id }}</td>
+            <td>{{ r.customer.name }}</td>
+            <td>{{ r.motorcycle }}</td>
+            <td>{{ r.date_in }}</td>
+            <td>{{ r.date_out }}</td>
+            <td>{{ r.duration|floatformat:1 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No completed repairs in this range.</p>
+{% endif %}
+{% endblock %}

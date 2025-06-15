@@ -1,0 +1,55 @@
+{% extends "base_dashboard.html" %}
+
+{% block content %}
+<h2>Inventory Summary Report</h2>
+
+<form method="get">
+    <label>From: <input type="date" name="from" value="{{ from_date }}"></label>
+    <label>To: <input type="date" name="to" value="{{ to_date }}"></label>
+    <button type="submit" class="btn">Filter</button>
+    {% if parts %}
+    <button type="submit" name="format" value="pdf" class="btn">Download PDF</button>
+    {% endif %}
+</form>
+
+{% if parts %}
+<table class="styled-table" style="margin-top: 20px;">
+    <thead>
+        <tr>
+            <th>Part Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Unit Price (KES)</th>
+            <th>Supplier</th>
+            <th>Total Value (KES)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for part in parts %}
+        <tr>
+            <td>{{ part.name }}</td>
+            <td>
+                {% if part.category %}
+                    {{ part.category.name }}
+                {% else %}
+                    Uncategorized
+                {% endif %}
+            </td>
+            <td>{{ part.quantity }}</td>
+            <td>{{ part.price|floatformat:2 }}</td>
+            <td>
+                {% if part.supplier %}
+                    {{ part.supplier.name }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+            <td>{{ part.total_value|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No spare parts found in inventory.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Supplier Inventory Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; padding: 20px; }
+        h2, h3 { text-align: left; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+        table, th, td { border: 1px solid #bbb; }
+        th, td { padding: 6px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<h2>Supplier Inventory Report</h2>
+
+{% if from_date or to_date %}
+<p><strong>Filtered:</strong>
+    {% if from_date %} From {{ from_date }}{% endif %}
+    {% if to_date %} to {{ to_date }}{% endif %}
+</p>
+{% endif %}
+
+{% if supplier_parts %}
+{% for supplier, parts in supplier_parts.items %}
+    <h3>{{ supplier|default:"Unknown Supplier" }}</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Part Name</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for part in parts %}
+            <tr>
+                <td>{{ part.name }}</td>
+                <td>{{ part.quantity }}</td>
+                <td>{{ part.price|floatformat:2 }}</td>
+                <td>{{ part.total_value|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endfor %}
+{% else %}
+<p>No inventory records found.</p>
+{% endif %}
+
+</body>
+</html>

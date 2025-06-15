@@ -1,0 +1,42 @@
+{% extends "base_dashboard.html" %}
+
+{% block content %}
+<h2>Category-wise Inventory Report</h2>
+
+<form method="get">
+    <label>From: <input type="date" name="from" value="{{ from_date }}"></label>
+    <label>To: <input type="date" name="to" value="{{ to_date }}"></label>
+    <button type="submit" class="btn">Filter</button>
+    {% if category_parts %}
+    <button type="submit" name="format" value="pdf" class="btn">Download PDF</button>
+    {% endif %}
+</form>
+
+{% if category_parts %}
+{% for category, parts in category_parts.items %}
+    <h3>{{ category|default:"Uncategorized" }}</h3>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Part Name</th>
+                <th>Quantity</th>
+                <th>Unit Price (KES)</th>
+                <th>Total Value (KES)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for part in parts %}
+            <tr>
+                <td>{{ part.name }}</td>
+                <td>{{ part.quantity }}</td>
+                <td>{{ part.price|floatformat:2 }}</td>
+                <td>{{ part.total_value|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endfor %}
+{% else %}
+<p>No inventory data found for the selected date range.</p>
+{% endif %}
+{% endblock %}

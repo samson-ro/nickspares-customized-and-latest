@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Part Sales via Invoices</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; color: #333; padding: 20px; }
+        h2 { text-align: center; color: #222; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        table, th, td { border: 1px solid #bbb; }
+        th, td { padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<h2>Part Sales via Invoices</h2>
+
+{% if from_date or to_date %}
+<p><strong>Filtered:</strong>
+    {% if from_date %} From {{ from_date }}{% endif %}
+    {% if to_date %} to {{ to_date }}{% endif %}
+</p>
+{% endif %}
+
+<table>
+    <thead>
+        <tr>
+            <th>Part</th>
+            <th>Quantity Sold</th>
+            <th>Total Revenue (KES)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for part, data in part_sales.items %}
+        <tr>
+            <td>{{ part.name }}</td>
+            <td>{{ data.quantity }}</td>
+            <td>{{ data.revenue|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -19,8 +19,4 @@ urlpatterns = [
     path('motorcycles/add/', views.add_motorcycle, name='add_motorcycle'),
     path('motorcycles/<int:pk>/edit/', views.edit_motorcycle, name='edit_motorcycle'),
     path('motorcycles/<int:pk>/delete/', views.delete_motorcycle, name='delete_motorcycle'),
-
-    # Unified Reporting Route
-    path('reports/', views.repair_report, name='repair_report'),
-
 ]

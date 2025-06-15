@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Monthly Invoice Breakdown</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; color: #333; padding: 20px; }
+        h2 { text-align: center; color: #222; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        table, th, td { border: 1px solid #bbb; }
+        th, td { padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<h2>Monthly Invoice Breakdown</h2>
+
+{% if from_date or to_date %}
+<p><strong>Filtered:</strong>
+    {% if from_date %} From {{ from_date }}{% endif %}
+    {% if to_date %} to {{ to_date }}{% endif %}
+</p>
+{% endif %}
+
+<table>
+    <thead>
+        <tr>
+            <th>Month</th>
+            <th>Invoice Count</th>
+            <th>Total Revenue (KES)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for month, data in monthly_data.items %}
+        <tr>
+            <td>{{ month }}</td>
+            <td>{{ data.count }}</td>
+            <td>{{ data.total|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

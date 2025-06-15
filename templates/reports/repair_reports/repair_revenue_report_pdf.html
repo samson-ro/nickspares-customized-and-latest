@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Repair Revenue Breakdown</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; padding: 20px; }
+        h2 { text-align: center; margin-bottom: 20px; }
+        table { width: 60%; margin: 0 auto; border-collapse: collapse; }
+        th, td { padding: 8px; text-align: left; border: 1px solid #bbb; }
+        th { background-color: #f2f2f2; }
+        td:last-child { text-align: right; }
+    </style>
+</head>
+<body>
+
+<h2>Repair Revenue Breakdown</h2>
+
+{% if from_date or to_date %}
+<p style="text-align: center;">
+    <strong>Filtered:</strong>
+    {% if from_date %} From {{ from_date }}{% endif %}
+    {% if to_date %} to {{ to_date }}{% endif %}
+</p>
+{% endif %}
+
+<table>
+    <tr>
+        <th>Service Revenue (Labour)</th>
+        <td>{{ total_service|floatformat:2 }}</td>
+    </tr>
+    <tr>
+        <th>Parts Revenue (Used in Repairs)</th>
+        <td>{{ total_parts|floatformat:2 }}</td>
+    </tr>
+    <tr>
+        <th><strong>Total Revenue</strong></th>
+        <td><strong>{{ total_combined|floatformat:2 }}</strong></td>
+    </tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+{% extends "base_dashboard.html" %}
+{% block content %}
+
+<h2>Mechanic Workload Detail</h2>
+
+<form method="get">
+    <label>Mechanic:
+        <select name="mechanic">
+            <option value="">-- Select Mechanic --</option>
+            {% for m in mechanics %}
+            <option value="{{ m.id }}" {% if m.id|stringformat:"s" == request.GET.mechanic %}selected{% endif %}>{{ m.name }}</option>
+            {% endfor %}
+        </select>
+    </label>
+
+    <label>From: <input type="date" name="from" value="{{ from_date }}"></label>
+    <label>To: <input type="date" name="to" value="{{ to_date }}"></label>
+    <button type="submit" class="btn">Search</button>
+    {% if selected_mechanic and repairs %}
+    <button type="submit" name="format" value="pdf" class="btn">Download PDF</button>
+    {% endif %}
+</form>
+
+{% if selected_mechanic %}
+<h3>Mechanic: {{ selected_mechanic.name }}</h3>
+
+{% if repairs %}
+<table class="styled-table" style="margin-top: 20px;">
+    <thead>
+        <tr>
+            <th>Repair ID</th>
+            <th>Customer</th>
+            <th>Motorcycle</th>
+            <th>Status</th>
+            <th>Date In</th>
+            <th>Cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in repairs %}
+        <tr>
+            <td>{{ r.id }}</td>
+            <td>{{ r.customer.name }}</td>
+            <td>{{ r.motorcycle }}</td>
+            <td>{{ r.status }}</td>
+            <td>{{ r.date_in|date:"Y-m-d" }}</td>
+            <td>{{ r.cost_of_service|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No repairs found for this mechanic in the selected range.</p>
+{% endif %}
+{% endif %}
+
+{% endblock %}

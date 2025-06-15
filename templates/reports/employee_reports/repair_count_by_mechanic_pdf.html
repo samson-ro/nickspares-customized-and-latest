@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Repairs by Mechanic</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; padding: 20px; }
+        h2 { text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #bbb; padding: 6px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<h2>Repair Count by Mechanic</h2>
+
+{% if from_date or to_date %}
+<p><strong>Filtered:</strong>
+    {% if from_date %} From {{ from_date }}{% endif %}
+    {% if to_date %} to {{ to_date }}{% endif %}
+</p>
+{% endif %}
+
+{% if mechanic_data %}
+<table>
+    <thead>
+        <tr>
+            <th>Mechanic</th>
+            <th>Repairs Done</th>
+            <th>Total Repair Revenue (KES)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for m in mechanic_data %}
+        <tr>
+            <td>{{ m.mechanic__name }}</td>
+            <td>{{ m.total_repairs }}</td>
+            <td>{{ m.total_cost|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No mechanic data found.</p>
+{% endif %}
+
+</body>
+</html>

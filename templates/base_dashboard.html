@@ -265,9 +265,96 @@
                 <i class="fas fa-users-cog"></i> Employees
             </a>
 
-            <a href="{% url 'repair_report' %}" class="{% if request.path == '/repairs/reports/' %}active{% endif %}">
-                <i class="fas fa-chart-line"></i> Repair Reports
-            </a>
+            <button class="toggle {% if '/reports/' in request.path %}active{% endif %}" onclick="toggleMenu('reportsSubmenu', this)">
+                <i class="fas fa-chart-line"></i> Reports
+                <span class="chevron" style="margin-left:auto;">&#9660;</span>
+            </button>
+
+            <div id="reportsSubmenu" class="submenu {% if '/reports/' in request.path %}show{% endif %}">
+
+                <button class="toggle {% if '/reports/invoices/' in request.path %}active{% endif %}" onclick="toggleMenu('invoiceReportsSubmenu', this)">
+                    <i class="fas fa-file-invoice"></i> Invoice Reports
+                    <span class="chevron" style="margin-left:auto;">&#9660;</span>
+                </button>
+
+                <div id="invoiceReportsSubmenu" class="submenu {% if '/reports/invoices/' in request.path %}show{% endif %}">
+                    <a href="{% url 'invoice_report' %}" class="{% if request.path == '/reports/invoices/' %}active{% endif %}">📄 Invoice Summary</a>
+                    <a href="{% url 'unpaid_invoices_report' %}" class="{% if request.path == '/reports/invoices/unpaid/' %}active{% endif %}">💰 Unpaid Invoices</a>
+                    <a href="{% url 'payment_summary_report' %}" class="{% if request.path == '/reports/invoices/summary/' %}active{% endif %}">💳 Totals by Payment Method</a>
+                    <a href="{% url 'customer_invoice_history' %}" class="{% if request.path == '/reports/invoices/customer/' %}active{% endif %}">👤 Customer Invoice History</a>
+                    <a href="{% url 'top_customers_report' %}" class="{% if request.path == '/reports/invoices/top-customers/' %}active{% endif %}">🏆 Top Customers</a>
+                    <a href="{% url 'monthly_invoice_breakdown' %}" class="{% if request.path == '/reports/invoices/monthly/' %}active{% endif %}">📅 Monthly Breakdown</a>
+                    <a href="{% url 'part_sales_report' %}" class="{% if request.path == '/reports/invoices/part-sales/' %}active{% endif %}">🛒 Part Sales via Invoices</a>
+                </div>
+
+                <button class="toggle {% if '/reports/repairs/' in request.path %}active{% endif %}" onclick="toggleMenu('repairReportsSubmenu', this)">
+                    <i class="fas fa-tools"></i> Repair Reports
+                    <span class="chevron">&#9660;</span>
+                </button>
+
+                <div id="repairReportsSubmenu" class="submenu {% if '/reports/repairs/' in request.path %}show{% endif %}">
+                    <a href="{% url 'repair_summary_report' %}">Repair Summary</a>
+                    <a href="{% url 'top_models_report' %}">Top Repaired Models</a>
+                    <a href="{% url 'repair_revenue_report' %}">Revenue Breakdown</a>
+                    <a href="{% url 'most_common_repairs_report' %}">Most Common Repairs</a>
+                    <a href="{% url 'repair_parts_usage_report' %}">Parts Usage</a>
+                    <a href="{% url 'average_repair_time_report' %}">Average Repair Time</a>
+                </div>
+
+                <button class="toggle {% if '/reports/inventory/' in request.path %}active{% endif %}" onclick="toggleMenu('inventoryReportsSubmenu', this)">
+                    <i class="fas fa-boxes-stacked"></i> Inventory Reports
+                    <span class="chevron" style="margin-left:auto;">&#9660;</span>
+                </button>
+
+                <div id="inventoryReportsSubmenu" class="submenu {% if '/reports/inventory/' in request.path %}show{% endif %}">
+                    <a href="{% url 'inventory_summary_report' %}">Inventory Summary</a>
+                    <a href="{% url 'low_stock_report' %}">Low Stock</a>
+                    <a href="{% url 'supplier_inventory_report' %}">By Supplier</a>
+                    <a href="{% url 'category_inventory_report' %}">By Category</a>
+                    <a href="{% url 'price_list_report' %}">Price List</a>
+                    <a href="{% url 'inventory_value_over_time' %}">Value Over Time</a>
+                </div>
+
+                <!-- Customers -->
+            <button class="toggle {% if '/reports/customers/' in request.path %}active{% endif %}" onclick="toggleMenu('customerReportsSubmenu', this)">
+                <i class="fas fa-user-friends"></i> Customers Reports
+                <span class="chevron" style="margin-left:auto;">&#9660;</span>
+            </button>
+
+            <div id="customerReportsSubmenu" class="submenu {% if '/reports/customers/' in request.path %}show{% endif %}">
+                <a href="{% url 'customer_summary_report' %}">Customer Summary</a>
+                <a href="{% url 'top_customers_by_revenue' %}">Top by Revenue</a>
+                <a href="{% url 'customers_with_most_repairs' %}">Most Repairs</a>
+                <a href="{% url 'new_customers_over_time' %}">New Over Time</a>
+                <a href="{% url 'customer_service_history' %}">Service History</a>
+            </div>
+                        <!-- Employees -->
+            <button class="toggle {% if '/reports/employees/' in request.path %}active{% endif %}" onclick="toggleMenu('employeeReportsSubmenu', this)">
+                <i class="fas fa-users-cog"></i> Employees
+                <span class="chevron" style="margin-left:auto;">&#9660;</span>
+            </button>
+
+            <div id="employeeReportsSubmenu" class="submenu {% if '/reports/employees/' in request.path %}show{% endif %}">
+                <a href="{% url 'employee_summary_report' %}">Employee Summary</a>
+                <a href="{% url 'repair_count_by_mechanic' %}">Repair Count by Mechanic</a>
+                <a href="{% url 'mechanic_workload_detail' %}">Mechanic Workload</a>
+                <a href="{% url 'monthly_repair_output' %}">Monthly Output</a>
+                <a href="{% url 'top_performing_mechanics' %}">Top Performers</a>
+            </div>
+
+            <button class="toggle {% if '/reports/suppliers/' in request.path %}active{% endif %}" onclick="toggleMenu('supplierReportsSubmenu', this)">
+                <i class="fas fa-truck"></i> Suppliers
+                <span class="chevron" style="margin-left:auto;">&#9660;</span>
+            </button>
+
+            <div id="supplierReportsSubmenu" class="submenu {% if '/reports/suppliers/' in request.path %}show{% endif %}">
+                <a href="{% url 'supplier_summary_report' %}">Supplier Summary</a>
+                <a href="{% url 'parts_supplied_per_supplier' %}">Parts Supplied</a>
+                <a href="{% url 'top_suppliers_by_value' %}">Top by Value</a>
+                <a href="{% url 'low_stock_by_supplier' %}">Low Stock</a>
+            </div>
+
+            </div>
 
         </aside>
 

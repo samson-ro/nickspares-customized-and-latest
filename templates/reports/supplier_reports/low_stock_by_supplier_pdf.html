@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Low Stock by Supplier</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; padding: 20px; }
+        h2 { text-align: center; }
+        h3 { margin-top: 30px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #bbb; padding: 6px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<h2>Low Stock by Supplier (Threshold ≤ {{ threshold }})</h2>
+
+{% if grouped_parts %}
+{% for supplier, parts in grouped_parts.items %}
+<h3>{{ supplier }}</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Part</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Price (KES)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for part in parts %}
+        <tr>
+            <td>{{ part.name }}</td>
+            <td>
+                {% if part.category %}
+                    {{ part.category.name }}
+                {% else %}
+                    Uncategorized
+                {% endif %}
+            </td>
+            <td>{{ part.quantity }}</td>
+            <td>{{ part.price|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endfor %}
+{% else %}
+<p>No low stock items found.</p>
+{% endif %}
+
+</body>
+</html>
