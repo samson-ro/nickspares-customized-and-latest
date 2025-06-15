@@ -1,0 +1,95 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>📊 Nick's Reports Dashboard</h1>
+
+<style>
+.report-section {
+    margin-bottom: 30px;
+}
+.report-section h3 {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 4px;
+    color: #2c3e50;
+}
+.report-section ul {
+    list-style: none;
+    padding-left: 0;
+}
+.report-section li {
+    margin: 6px 0;
+}
+.report-section a {
+    text-decoration: none;
+    color: #2980b9;
+}
+</style>
+
+<!-- Invoices -->
+<div class="report-section">
+    <h3>🧾 Invoice Reports</h3>
+    <ul>
+        <li><a href="/reports/invoices/">Invoice Summary Report</a></li>
+        <li><a href="/reports/invoices/unpaid/">Unpaid Invoices Report</a></li>
+        <li><a href="/reports/invoices/payment-methods/">Invoice Totals by Payment Method</a></li>
+        <li><a href="/reports/invoices/customer-history/">Customer Invoice History</a></li>
+        <li><a href="/reports/invoices/top-customers/">Top Customers by Revenue</a></li>
+        <li><a href="/reports/invoices/monthly/">Monthly Invoice Breakdown</a></li>
+        <li><a href="/reports/invoices/part-sales/">Part Sales via Invoices</a></li>
+    </ul>
+</div>
+
+<!-- Repairs -->
+<div class="report-section">
+    <h3>🔧 Repair Reports</h3>
+    <ul>
+        <li><a href="/reports/repairs/summary/">Repair Summary Report</a></li>
+        <li><a href="/reports/repairs/top-models/">Top Repaired Motorcycle Models</a></li>
+        <li><a href="/reports/repairs/revenue-breakdown/">Repair Revenue Breakdown</a></li>
+        <li><a href="/reports/repairs/common-repairs/">Most Common Repairs</a></li>
+        <li><a href="/reports/repairs/parts-usage/">Repair Parts Usage</a></li>
+        <li><a href="/reports/repairs/average-time/">Average Repair Time</a></li>
+    </ul>
+</div>
+
+<!-- Inventory -->
+<div class="report-section">
+    <h3>📦 Inventory Reports</h3>
+    <ul>
+        <li><a href="/reports/inventory/summary/">Inventory Summary Report</a></li>
+        <li><a href="/reports/inventory/low-stock/">Low Stock Report</a></li>
+        <li><a href="/reports/inventory/value-over-time/">Inventory Value Over Time</a></li>
+    </ul>
+</div>
+
+<!-- Customers -->
+<div class="report-section">
+    <h3>👤 Customer Reports</h3>
+    <ul>
+        <li><a href="/reports/customers/top-revenue/">Top Customers by Revenue</a></li>
+        <li><a href="/reports/customers/service-history/">Full Service History per Customer</a></li>
+    </ul>
+</div>
+
+<!-- Employees -->
+<div class="report-section">
+    <h3>👨‍🔧 Employee Reports</h3>
+    <ul>
+        <li><a href="/reports/employees/repair-count/">Repair Count by Mechanic</a></li>
+        <li><a href="/reports/employees/workload/">Mechanic Workload Detail</a></li>
+        <li><a href="/reports/employees/monthly-output/">Monthly Repair Output by Mechanic</a></li>
+        <li><a href="/reports/employees/top-performing/">Top Performing Mechanics</a></li>
+    </ul>
+</div>
+
+<!-- Suppliers -->
+<div class="report-section">
+    <h3>🚚 Supplier Reports</h3>
+    <ul>
+        <li><a href="/reports/suppliers/contribution/">Supplier Contribution</a></li>
+        <li><a href="/reports/suppliers/top-parts/">Top Parts per Supplier</a></li>
+        <li><a href="/reports/suppliers/low-stock/">Low Stock by Supplier</a></li>
+    </ul>
+</div>
+
+{% endblock %}
