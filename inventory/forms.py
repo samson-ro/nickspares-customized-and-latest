@@ -4,7 +4,7 @@ from .models import SparePart, Supplier, PartCategory
 class SparePartForm(forms.ModelForm):
     class Meta:
         model = SparePart
-        fields = ['name', 'part_number', 'category', 'quantity', 'price', 'supplier']
+        fields = ['name', 'part_number', 'category', 'quantity', 'price', 'supplier', 'procurement_cost']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'part_number': forms.TextInput(attrs={'class': 'form-control'}),
@@ -12,6 +12,7 @@ class SparePartForm(forms.ModelForm):
             'quantity': forms.TextInput(attrs={'class': 'form-control'}),
             'price': forms.TextInput(attrs={'class': 'form-control'}),
             'supplier': forms.Select(attrs={'class': 'form-control'}),
+            'procurement_cost' : forms.TextInput(attrs={'class': 'form-control'})
         }
 
 class SupplierForm(forms.ModelForm):

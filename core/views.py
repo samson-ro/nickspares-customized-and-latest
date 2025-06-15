@@ -16,6 +16,8 @@ from django.db.models import F
 from django.db.models.functions import TruncMonth
 from django.utils.timezone import now, timedelta
 
+from reports.utils import calculate_profit_by_month, calculate_total_profit
+
 
 @login_required
 def reports_overview(request):
@@ -103,6 +105,12 @@ def reports_overview(request):
     chart_payment_labels = [p["payment_method"] for p in payment_pie]
     chart_payment_values = [p["total"] for p in payment_pie]
 
+    #PROFIT STATS
+    monthly_profit_data = calculate_profit_by_month()
+    chart_profit_labels = [p["month"] for p in monthly_profit_data]
+    chart_profit_values = [float(p["profit"]) for p in monthly_profit_data]
+    total_profit = calculate_total_profit()
+
     # === Context ===
     context = {
         "total_revenue": total_revenue,
@@ -120,6 +128,11 @@ def reports_overview(request):
         "chart_repair_counts": chart_repair_counts,
         "chart_payment_labels": chart_payment_labels,
         "chart_payment_values": chart_payment_values,
+
+        "chart_profit_labels": chart_profit_labels,
+        "chart_profit_values": chart_profit_values,
+        "total_profit": float(total_profit),
+
     }
 
     return render(request, "reports/reports_overview.html", context)
