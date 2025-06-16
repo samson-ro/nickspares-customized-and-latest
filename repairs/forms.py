@@ -48,6 +48,12 @@ class MotorcycleForm(forms.ModelForm):
     class Meta:
         model = Motorcycle
         fields = ['model', 'license_plate', 'year', 'customer']
+        widgets = {
+            'model': forms.TextInput(attrs={'class': 'form-control'}),
+            'license_plate': forms.TextInput(attrs={'class': 'form-control'}),
+            'year': forms.TextInput(attrs={'class': 'form-control'}),
+            'customer': forms.TextInput(attrs={'class': 'form-control'}),
+        }
 
 class RepairReportForm(forms.Form):
     start_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
