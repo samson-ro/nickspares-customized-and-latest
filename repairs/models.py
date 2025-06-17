@@ -31,11 +31,10 @@ class RepairRecord(models.Model):
 
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     mechanic = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, blank=True)
-    motorcycle = models.ForeignKey(
-                                        'repairs.Motorcycle',
-                                        on_delete=models.CASCADE,
-                                        null=True, 
-                                        blank=True 
+    motorcycle = models.ForeignKey( 'repairs.Motorcycle',
+                                    on_delete=models.CASCADE,
+                                    null=True, 
+                                    blank=True 
                                     )
     complaint = models.TextField()
     work_done = models.TextField(blank=True, null=True)

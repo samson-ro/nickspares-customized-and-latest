@@ -36,7 +36,6 @@ def repair_detail(request, pk):
                  'repairs/repair_detail.html',
                  {'repair': repair, 'parts': parts})
 
-# Add a new repair record
 @login_required
 def add_repair(request):
     if request.method == 'POST':
@@ -44,39 +43,37 @@ def add_repair(request):
         formset = RepairPartFormSet(request.POST)
 
         if form.is_valid() and formset.is_valid():
-            repair = form.save(commit=False)
-            
-            # Only check stock if status is being set to Completed
+            repair = form.save(commit=False)     
+
             if form.cleaned_data['status'] == 'Completed':
                 for part_form in formset:
+
                     if part_form.cleaned_data and not part_form.cleaned_data.get('DELETE'):
                         part = part_form.cleaned_data['part']
                         quantity = part_form.cleaned_data['quantity']
+
                         if part.quantity < quantity:
                             part_form.add_error('quantity', f"Only {part.quantity} in stock for '{part.name}'.")
+
                             return render(request, 'repairs/repair_form.html', {
                                 'form': form,
                                 'formset': formset,
                                 'title': 'Add Repair'
-                            })
-            
-            # Save the repair first
+                            })           
             repair.save()
-            
-            # Process parts and deduct inventory only if status is Completed
             parts = formset.save(commit=False)
             for part in parts:
                 part.repair = repair
                 part.save()
                 if repair.status == 'Completed':
                     part.part.quantity -= part.quantity
-                    part.part.save()
-            
+                    part.part.save()    
+
             return redirect('repair_list')
     else:
         form = RepairRecordForm()
         formset = RepairPartFormSet()
-
+        
     return render(request, 'repairs/repair_form.html', {
         'form': form,
         'formset': formset,

@@ -137,6 +137,7 @@ def reports_overview(request):
 
     return render(request, "reports/reports_overview.html", context)
 
+
 class CustomLoginView(LoginView):
     template_name = 'registration/login.html'
 
@@ -153,6 +154,7 @@ class CustomLoginView(LoginView):
         messages.error(self.request, "Invalid username or password. Please try again.")
         return super().form_invalid(form)
     
+
 class CustomLogoutView(LogoutView):
     def dispatch(self, request, *args, **kwargs):
         list(messages.get_messages(request))
