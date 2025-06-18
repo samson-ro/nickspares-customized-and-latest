@@ -5,9 +5,10 @@ from django.template.loader import render_to_string
 from django.http import HttpResponse
 import datetime
 
+from repairs.models import RepairPart
 from decimal import Decimal
 from django.db.models import Sum
-from billing.models import Invoice, PurchasedPart
+from billing.models import Invoice
 from django.db.models.functions import TruncMonth
 
 def render_pdf_view(template_path, context, filename="report.pdf"):
@@ -58,16 +59,22 @@ def calculate_profit_by_month():
 
 
 def calculate_total_profit():
-    total_profit = Decimal("0")
+    total_profit = Decimal('0.00')
 
-    invoices = Invoice.objects.all().prefetch_related("purchased_parts__part")
-    for invoice in invoices:
-        revenue = invoice.amount
-        part_cost = sum([
-            p.quantity * (p.part.procurement_cost or Decimal("0"))
-            for p in invoice.purchased_parts.all()
-        ])
-        profit = revenue - part_cost
+    for invoice in Invoice.objects.all().select_related('repair').prefetch_related('purchased_parts__part'):
+        cost = Decimal('0.00')
+
+        if invoice.repair:
+            # It's a service invoice
+            parts_used = RepairPart.objects.filter(repair=invoice.repair).select_related('part')
+            for part_entry in parts_used:
+                cost += part_entry.quantity * part_entry.part.procurement_cost
+        else:
+            # It's a parts purchase
+            for purchased in invoice.purchased_parts.all():
+                cost += purchased.quantity * purchased.part.procurement_cost
+
+        profit = invoice.amount - cost
         total_profit += profit
 
     return total_profit

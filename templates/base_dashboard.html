@@ -279,13 +279,12 @@
                 </button>
 
                 <div id="invoiceReportsSubmenu" class="submenu {% if '/reports/invoices/' in request.path %}show{% endif %}">
-                    <a href="{% url 'invoice_report' %}" class="{% if request.path == '/reports/invoices/' %}active{% endif %}">📄 Invoice Summary</a>
-                    <a href="{% url 'unpaid_invoices_report' %}" class="{% if request.path == '/reports/invoices/unpaid/' %}active{% endif %}">💰 Unpaid Invoices</a>
-                    <a href="{% url 'payment_summary_report' %}" class="{% if request.path == '/reports/invoices/summary/' %}active{% endif %}">💳 Totals by Payment Method</a>
-                    <a href="{% url 'customer_invoice_history' %}" class="{% if request.path == '/reports/invoices/customer/' %}active{% endif %}">👤 Customer Invoice History</a>
-                    <a href="{% url 'top_customers_report' %}" class="{% if request.path == '/reports/invoices/top-customers/' %}active{% endif %}">🏆 Top Customers</a>
-                    <a href="{% url 'monthly_invoice_breakdown' %}" class="{% if request.path == '/reports/invoices/monthly/' %}active{% endif %}">📅 Monthly Breakdown</a>
-                    <a href="{% url 'part_sales_report' %}" class="{% if request.path == '/reports/invoices/part-sales/' %}active{% endif %}">🛒 Part Sales via Invoices</a>
+                    <a href="{% url 'invoice_report' %}" class="{% if request.path == '/reports/invoices/' %}active{% endif %}">Invoice Summary</a>
+                    <a href="{% url 'unpaid_invoices_report' %}" class="{% if request.path == '/reports/invoices/unpaid/' %}active{% endif %}">Unpaid Invoices</a>
+                    <a href="{% url 'payment_summary_report' %}" class="{% if request.path == '/reports/invoices/summary/' %}active{% endif %}">Totals by Payment Method</a>
+                    <a href="{% url 'customer_invoice_history' %}" class="{% if request.path == '/reports/invoices/customer/' %}active{% endif %}">Customer Invoice History</a>
+                    <a href="{% url 'monthly_invoice_breakdown' %}" class="{% if request.path == '/reports/invoices/monthly/' %}active{% endif %}">Monthly Breakdown</a>
+                    <a href="{% url 'part_sales_report' %}" class="{% if request.path == '/reports/invoices/part-sales/' %}active{% endif %}">Part Sales via Invoices</a>
                 </div>
 
                 <button class="toggle {% if '/reports/repairs/' in request.path %}active{% endif %}" onclick="toggleMenu('repairReportsSubmenu', this)">

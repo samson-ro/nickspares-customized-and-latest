@@ -128,38 +128,6 @@ def customer_invoice_history(request):
 
     return render(request, "reports/invoice_reports/customer_invoice_history.html", context)
 
-@login_required
-def top_customers_report(request):
-    from_date, to_date = parse_date_range(request)
-
-    invoices = Invoice.objects.filter(paid=True)
-
-    if from_date:
-        invoices = invoices.filter(date_issued__gte=from_date)
-    if to_date:
-        invoices = invoices.filter(date_issued__lte=to_date)
-
-    # Aggregate totals per customer
-    totals = invoices.values('customer').annotate(total=Sum('amount')).order_by('-total')
-
-    # Fetch customer instances
-    customer_ids = [item['customer'] for item in totals]
-    customer_map = {c.id: c for c in Customer.objects.filter(id__in=customer_ids)}
-
-    # Pair customer object with total
-    top_customers = [(customer_map[item['customer']], item['total']) for item in totals]
-
-    context = {
-        "top_customers": top_customers,
-        "from_date": from_date,
-        "to_date": to_date
-    }
-
-    if request.GET.get("format") == "pdf":
-        return render_pdf_view("reports/invoice_reports/top_customers_report_pdf.html", context, "top-customers.pdf")
-
-    return render(request, "reports/invoice_reports/top_customers_report.html", context)
-
 
 @login_required
 def monthly_invoice_breakdown(request):
@@ -1025,7 +993,7 @@ def top_suppliers_by_value(request):
 
 @login_required
 def low_stock_by_supplier(request):
-    LOW_STOCK_THRESHOLD = 5  # 🔹 configurable threshold
+    LOW_STOCK_THRESHOLD = 3  # 🔹 configurable threshold
 
     low_stock_parts = (
         SparePart.objects

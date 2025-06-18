@@ -1,4 +1,6 @@
 {% extends "base_dashboard.html" %}
+{% load static %}
+{% load custom_filters %}
 {% block content %}
 <h2>📊 Reports Dashboard Overview</h2>
 
@@ -64,6 +66,31 @@
         <p><strong>{{ low_stock_count }}</strong> items</p>
     </div>
 </div>
+
+<h3 style="margin-top: 40px;">📈 Monthly Profit Overview</h3>
+
+{% if chart_profit_labels and chart_profit_values %}
+    <div style="overflow-x: auto; margin-top: 10px;">
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>Profit (KES)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for month, profit in chart_profit_labels|zip_lists:chart_profit_values %}
+                <tr>
+                    <td>{{ month }}</td>
+                    <td>KES {{ profit|floatformat:2 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <p>No profit data available.</p>
+{% endif %}
 
 <style>
 .report-card {

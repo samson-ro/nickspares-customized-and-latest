@@ -6,7 +6,6 @@ urlpatterns = [
     path('invoices/unpaid/', views.unpaid_invoices_report, name='unpaid_invoices_report'),
     path('invoices/summary/', views.payment_summary_report, name='payment_summary_report'),
     path('invoices/customer/', views.customer_invoice_history, name='customer_invoice_history'),
-    path('invoices/top-customers/', views.top_customers_report, name='top_customers_report'),
     path('invoices/monthly/', views.monthly_invoice_breakdown, name='monthly_invoice_breakdown'),
     path('invoices/part-sales/', views.part_sales_report, name='part_sales_report'),
 
