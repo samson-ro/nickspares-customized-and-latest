@@ -3,7 +3,7 @@ from billing.models import PurchasedPart
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from billing.models import Invoice
-from .utils import render_pdf_view, parse_date_range
+from .utils import calculate_profit_by_month, calculate_total_profit, render_pdf_view, parse_date_range
 from django.db.models import Sum, Count
 
 from customers.models import Customer
@@ -1140,6 +1140,12 @@ def reports_overview(request):
     chart_payment_labels = [p["payment_method"] for p in payment_pie]
     chart_payment_values = [p["total"] for p in payment_pie]
 
+    #PROFIT STATS
+    monthly_profit_data = calculate_profit_by_month()
+    chart_profit_labels = [p["month"] for p in monthly_profit_data]
+    chart_profit_values = [float(p["profit"]) for p in monthly_profit_data]
+    total_profit = calculate_total_profit()
+
     # === Context ===
     context = {
         "total_revenue": total_revenue,
@@ -1157,6 +1163,11 @@ def reports_overview(request):
         "chart_repair_counts": chart_repair_counts,
         "chart_payment_labels": chart_payment_labels,
         "chart_payment_values": chart_payment_values,
+
+        "chart_profit_labels": chart_profit_labels,
+        "chart_profit_values": chart_profit_values,
+        "total_profit": float(total_profit),
+
     }
 
     return render(request, "reports/reports_overview.html", context)
